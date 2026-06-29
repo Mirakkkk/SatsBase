@@ -390,39 +390,39 @@
       <div class="stat-card">
         <div class="stat-icon" style="background:#e8f0fd;"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
         <div class="stat-label">Total Borrowed</div>
-        <div class="stat-value">$47,500</div>
-        <div class="stat-change neutral">Across 2 active loans</div>
+        <div class="stat-value" id="stat-total-borrowed">$47,500</div>
+        <div class="stat-change neutral" id="stat-total-borrowed-sub">Across 2 active loans</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon" style="background:#fef3c7;"><svg width="20" height="20" fill="none" stroke="#d97706" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>
         <div class="stat-label">Bitcoin Collateral</div>
-        <div class="stat-value">0.82 &#8383;</div>
-        <div class="stat-change down"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg> $49,309 value</div>
+        <div class="stat-value" id="stat-btc-collateral">0.82 &#8383;</div>
+        <div class="stat-change down" id="stat-btc-usd"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg> $49,309 value</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon" style="background:#d1fae5;"><svg width="20" height="20" fill="none" stroke="#059669" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
         <div class="stat-label">Current LTV</div>
-        <div class="stat-value" style="color:#059669;">53.4%</div>
-        <div class="stat-change up">Safe — margin at 86.6%</div>
+        <div class="stat-value" id="stat-ltv" style="color:#059669;">53.4%</div>
+        <div class="stat-change up" id="stat-ltv-sub">Safe — margin at 86.6%</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon" style="background:#fee2e2;"><svg width="20" height="20" fill="none" stroke="#dc2626" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
         <div class="stat-label">Next Payment</div>
-        <div class="stat-value">Jul 15</div>
-        <div class="stat-change down">$1,187 due in 16 days</div>
+        <div class="stat-value" id="stat-next-payment">Jul 15</div>
+        <div class="stat-change down" id="stat-next-payment-sub">$1,187 due in 16 days</div>
       </div>
     </div>
 
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
-          <div><div class="card-title">Active Loans</div><div class="card-subtitle">2 loans &middot; $47,500 total</div></div>
+          <div><div class="card-title">Active Loans</div><div class="card-subtitle" id="active-loans-subtitle">2 loans &middot; $47,500 total</div></div>
           <button class="btn btn-outline btn-sm" onclick="showView('loans', document.querySelectorAll('.nav-item')[1])">View All</button>
         </div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Loan</th><th>Amount</th><th>LTV</th><th>Rate</th><th>Status</th></tr></thead>
-            <tbody>
+            <tbody id="active-loans-tbody">
               <tr>
                 <td><div style="font-weight:600;">#PBL-2041</div><div style="font-size:12px;color:var(--gray-400);">Matures Aug 15, 2026</div></td>
                 <td><strong>$32,000</strong></td>
@@ -456,12 +456,12 @@
         <div class="card">
           <div class="card-header"><div><div class="card-title">Collateral</div><div class="card-subtitle">Bitcoin locked in escrow</div></div><span class="badge badge-green">Safe</span></div>
           <div class="collateral-info">
-            <div class="collateral-row"><span class="collateral-key">Total BTC locked</span><span class="collateral-val">0.8200 &#8383;</span></div>
-            <div class="collateral-row"><span class="collateral-key">USD value</span><span class="collateral-val">$49,309</span></div>
+            <div class="collateral-row"><span class="collateral-key">Total BTC locked</span><span class="collateral-val" id="col-btc-locked">0.8200 &#8383;</span></div>
+            <div class="collateral-row"><span class="collateral-key">USD value</span><span class="collateral-val" id="col-btc-usd">$49,309</span></div>
             <div class="divider"></div>
             <div class="collateral-row"><span class="collateral-key">Liquidation threshold</span><span class="collateral-val" style="color:var(--red);">80% LTV</span></div>
-            <div class="collateral-row"><span class="collateral-key">Margin to liquidation</span><span class="collateral-val" style="color:var(--green);">$1,809</span></div>
-            <div style="background:var(--gray-100);border-radius:8px;padding:12px;font-size:13px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Healthy position.</strong> BTC must drop to <strong>$72,409</strong> to trigger margin call.</div>
+            <div class="collateral-row"><span class="collateral-key">Margin to liquidation</span><span class="collateral-val" style="color:var(--green);" id="col-margin">$1,809</span></div>
+            <div style="background:var(--gray-100);border-radius:8px;padding:12px;font-size:13px;color:var(--gray-600);" id="col-health-note"><strong style="color:var(--gray-800);">Healthy position.</strong> BTC must drop to <strong>$72,409</strong> to trigger margin call.</div>
           </div>
         </div>
       </div>
@@ -1892,7 +1892,7 @@
         </div>
       </div>
 
-      <button onclick="enterDashboard('borrower')" style="margin-top:28px;width:100%;padding:16px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='#1344b8'" onmouseleave="this.style.background='#0245AC'">
+      <button onclick="goToBorrowerDashboard()" style="margin-top:28px;width:100%;padding:16px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='#1344b8'" onmouseleave="this.style.background='#0245AC'">
         Go to my dashboard →
       </button>
     </div>
@@ -2025,6 +2025,69 @@
     document.getElementById('ob-sum-rate').textContent = (rate * 100).toFixed(1) + '% / yr';
     document.getElementById('ob-sum-monthly').textContent = '$' + parseFloat(monthly).toLocaleString();
     document.getElementById('ob-summary').style.display = 'block';
+  }
+
+  function goToBorrowerDashboard() {
+    const amount = parseFloat(document.getElementById('ob-amount').value) || 0;
+    const termEl = document.querySelector('.ob-term-selected');
+    const term = termEl ? parseInt(termEl.dataset.term) : 6;
+    closeBorrowOnboard();
+    initBorrowerFromForm(amount, term);
+    enterDashboard('borrower');
+  }
+
+  function initBorrowerFromForm(amount, termMonths) {
+    if (!amount || amount < 1) return;
+    const BTC = 60133.10;
+    const RATES = {6: 0.085, 12: 0.08, 24: 0.075};
+    const rate = RATES[termMonths] || 0.085;
+    const btc = amount / (BTC * 0.5);
+    const btcUsd = btc * BTC;
+    const monthlyInterest = amount * rate / 12;
+    const ltv = 50;
+
+    // Maturity date
+    const maturity = new Date();
+    maturity.setMonth(maturity.getMonth() + termMonths);
+    const matureStr = maturity.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+
+    // Next payment ~30 days out
+    const nextPay = new Date();
+    nextPay.setDate(nextPay.getDate() + 30);
+    const nextPayStr = nextPay.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+
+    const fmtUsd = v => '$' + v.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
+    const fmtBtc = v => v.toFixed(4) + ' ₿';
+    const loanId = '#PBL-' + (2100 + Math.floor(Math.random() * 99));
+
+    // Stats
+    document.getElementById('stat-total-borrowed').textContent = fmtUsd(amount);
+    document.getElementById('stat-total-borrowed-sub').textContent = '1 active loan';
+    document.getElementById('stat-btc-collateral').textContent = fmtBtc(btc);
+    document.getElementById('stat-btc-usd').innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg> ' + fmtUsd(btcUsd) + ' value';
+    document.getElementById('stat-ltv').textContent = ltv + '%';
+    document.getElementById('stat-ltv-sub').textContent = 'Safe — margin at ' + (100 - ltv * 0.8).toFixed(1) + '%';
+    document.getElementById('stat-next-payment').textContent = nextPayStr;
+    document.getElementById('stat-next-payment-sub').textContent = fmtUsd(monthlyInterest) + ' due in 30 days';
+
+    // Active loans table
+    document.getElementById('active-loans-subtitle').textContent = '1 loan · ' + fmtUsd(amount) + ' total';
+    document.getElementById('active-loans-tbody').innerHTML = `
+      <tr>
+        <td><div style="font-weight:600;">${loanId}</div><div style="font-size:12px;color:var(--gray-400);">Matures ${matureStr}</div></td>
+        <td><strong>${fmtUsd(amount)}</strong></td>
+        <td><div class="ltv-bar-wrap"><div class="ltv-bar-bg"><div class="ltv-bar-fill" style="width:50%;background:var(--green);"></div></div><span style="font-size:12px;font-weight:600;color:var(--green);min-width:34px;">50%</span></div></td>
+        <td>${(rate * 100).toFixed(1)}% / yr</td>
+        <td><span class="badge badge-orange">Pending</span></td>
+      </tr>`;
+
+    // Collateral card
+    const liqPrice = amount / (btc * 0.8);
+    const marginUsd = btcUsd - (amount / 0.7);
+    document.getElementById('col-btc-locked').textContent = fmtBtc(btc);
+    document.getElementById('col-btc-usd').textContent = fmtUsd(btcUsd);
+    document.getElementById('col-margin').textContent = fmtUsd(Math.max(0, marginUsd));
+    document.getElementById('col-health-note').innerHTML = '<strong style="color:var(--gray-800);">Healthy position.</strong> BTC must drop to <strong>' + fmtUsd(liqPrice) + '</strong> to trigger margin call.';
   }
 
   function submitNoCollateral() {
