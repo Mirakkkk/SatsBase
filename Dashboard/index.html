@@ -497,7 +497,7 @@
   <div class="view" id="view-investments">
     <div class="page-header">
       <div><div class="page-heading">Investments</div><div class="page-subheading">Earn yield by funding Bitcoin-backed loans</div></div>
-      <button class="btn btn-primary">+ New Investment</button>
+      <button class="btn btn-primary" onclick="openModal('invest')">+ New Investment</button>
     </div>
 
     <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
@@ -1012,9 +1012,95 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-      ['repay','borrow','collateral','rollover'].forEach(t => closeModal(t));
+      ['repay','borrow','collateral','rollover','invest'].forEach(t => closeModal(t));
     }
   });
+</script>
+
+<!-- NEW INVESTMENT MODAL -->
+<div class="modal-backdrop" id="modal-invest" onclick="handleBackdropClick(event,'modal-invest')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">New Investment</div>
+      <button class="modal-close" onclick="closeModal('invest')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="invest-form">
+      <div class="form-group">
+        <div class="form-label">Investment Strategy</div>
+        <select class="form-select" id="invest-strategy" onchange="updateInvestCalc()">
+          <option value="conservative">Conservative — 8.0% / yr (LTV ≤ 50%)</option>
+          <option value="balanced" selected>Balanced — 9.5% / yr (LTV ≤ 65%)</option>
+          <option value="growth">Growth — 11.0% / yr (LTV ≤ 75%)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-label">Amount to Invest (USD)</div>
+        <input class="form-input" type="number" id="invest-amount" placeholder="e.g. 5000" oninput="updateInvestCalc()" />
+        <div class="form-hint">Minimum $500 · Maximum $1,000,000</div>
+      </div>
+      <div class="form-group">
+        <div class="form-label">Duration</div>
+        <select class="form-select" id="invest-duration" onchange="updateInvestCalc()">
+          <option value="3">3 months</option>
+          <option value="6" selected>6 months</option>
+          <option value="12">12 months</option>
+        </select>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="calc-row"><span class="calc-key">Annual yield</span><span class="calc-val" id="invest-yield">—</span></div>
+      <div class="calc-row"><span class="calc-key">Monthly earnings</span><span class="calc-val" id="invest-monthly">—</span></div>
+      <div class="calc-row"><span class="calc-key">Total return</span><span class="calc-val" id="invest-total">—</span></div>
+      <div class="calc-row"><span class="calc-key">Amount at maturity</span><span class="calc-val" id="invest-maturity-val">—</span></div>
+      <div style="background:var(--green-light);border-radius:8px;padding:12px;font-size:13px;color:#065f46;">
+        All loans are secured by Bitcoin collateral. Your investment is backed by DLC escrow — funds are locked until loan repayment.
+      </div>
+    </div>
+    <div class="success-box" id="invest-success">
+      <div class="success-icon"><svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+      <div class="success-title">Investment Placed!</div>
+      <div class="success-sub" id="invest-success-msg">Your funds are now earning yield backed by Bitcoin collateral.</div>
+    </div>
+    <div class="modal-actions" id="invest-actions">
+      <button class="btn btn-outline" onclick="closeModal('invest')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitInvest()">Confirm Investment</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const INVEST_RATES = { conservative: 0.08, balanced: 0.095, growth: 0.11 };
+
+  function updateInvestCalc() {
+    const strategy = document.getElementById('invest-strategy') && document.getElementById('invest-strategy').value;
+    const amount = parseFloat(document.getElementById('invest-amount') && document.getElementById('invest-amount').value) || 0;
+    const months = parseInt(document.getElementById('invest-duration') && document.getElementById('invest-duration').value) || 6;
+    if (!strategy) return;
+    const rate = INVEST_RATES[strategy];
+    const monthly = amount * rate / 12;
+    const total = monthly * months;
+
+    document.getElementById('invest-yield').textContent = (rate * 100).toFixed(1) + '% / yr';
+    document.getElementById('invest-monthly').textContent = amount > 0 ? fmt(monthly) : '—';
+    document.getElementById('invest-total').textContent = amount > 0 ? fmt(total) : '—';
+    document.getElementById('invest-maturity-val').textContent = amount > 0 ? fmt(amount + total) : '—';
+  }
+
+  function submitInvest() {
+    const amount = parseFloat(document.getElementById('invest-amount').value) || 0;
+    if (amount < 500) {
+      document.getElementById('invest-amount').style.borderColor = 'var(--red)';
+      document.getElementById('invest-amount').placeholder = 'Minimum $500';
+      return;
+    }
+    const strategy = document.getElementById('invest-strategy').value;
+    const labels = { conservative: 'Conservative', balanced: 'Balanced', growth: 'Growth' };
+    document.getElementById('invest-success-msg').textContent =
+      fmt(amount) + ' placed in ' + labels[strategy] + ' strategy. Earning ' + (INVEST_RATES[strategy]*100).toFixed(1) + '% / yr backed by Bitcoin collateral.';
+    document.getElementById('invest-form').style.display = 'none';
+    document.getElementById('invest-success').style.display = 'flex';
+    document.getElementById('invest-actions').style.display = 'none';
+    setTimeout(() => closeModal('invest'), 2800);
+  }
 </script>
 
 <!-- ADD COLLATERAL MODAL -->
@@ -1182,7 +1268,7 @@
   }
 
   // Init rollover calc on load
-  document.addEventListener('DOMContentLoaded', updateRolloverCalc);
+  document.addEventListener('DOMContentLoaded', () => { updateRolloverCalc(); updateInvestCalc(); });
 </script>
 
 </body>
