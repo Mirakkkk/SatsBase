@@ -388,8 +388,8 @@
           <div class="actions-grid">
             <button class="action-btn" onclick="openModal('borrow')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg></div>Borrow More</button>
             <button class="action-btn" onclick="openModal('repay')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg></div>Repay Loan</button>
-            <button class="action-btn"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>Add Collateral</button>
-            <button class="action-btn"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>Rollover Loan</button>
+            <button class="action-btn" onclick="openModal('collateral')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>Add Collateral</button>
+            <button class="action-btn" onclick="openModal('rollover')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>Rollover Loan</button>
           </div>
         </div>
         <div class="card">
@@ -450,8 +450,8 @@
       </div>
       <div class="loan-actions">
         <button class="btn btn-outline btn-sm" onclick="openModal('repay')">Repay Loan</button>
-        <button class="btn btn-outline btn-sm">Add Collateral</button>
-        <button class="btn btn-outline btn-sm">Rollover</button>
+        <button class="btn btn-outline btn-sm" onclick="openModal('collateral')">Add Collateral</button>
+        <button class="btn btn-outline btn-sm" onclick="openModal('rollover')">Rollover</button>
         <button class="btn btn-primary btn-sm" style="margin-left:auto;">View Details</button>
       </div>
     </div>
@@ -477,8 +477,8 @@
       </div>
       <div class="loan-actions">
         <button class="btn btn-outline btn-sm" onclick="openModal('repay')">Repay Loan</button>
-        <button class="btn btn-outline btn-sm">Add Collateral</button>
-        <button class="btn btn-outline btn-sm">Rollover</button>
+        <button class="btn btn-outline btn-sm" onclick="openModal('collateral')">Add Collateral</button>
+        <button class="btn btn-outline btn-sm" onclick="openModal('rollover')">Rollover</button>
         <button class="btn btn-primary btn-sm" style="margin-left:auto;">View Details</button>
       </div>
     </div>
@@ -559,7 +559,7 @@
   <div class="view" id="view-collateral">
     <div class="page-header">
       <div><div class="page-heading">Collateral</div><div class="page-subheading">Bitcoin secured in DLC escrow</div></div>
-      <button class="btn btn-primary">+ Add Collateral</button>
+      <button class="btn btn-primary" onclick="openModal('collateral')">+ Add Collateral</button>
     </div>
 
     <div class="alert-banner info">
@@ -1012,9 +1012,177 @@
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-      ['repay','borrow'].forEach(t => closeModal(t));
+      ['repay','borrow','collateral','rollover'].forEach(t => closeModal(t));
     }
   });
+</script>
+
+<!-- ADD COLLATERAL MODAL -->
+<div class="modal-backdrop" id="modal-collateral" onclick="handleBackdropClick(event,'modal-collateral')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Collateral</div>
+      <button class="modal-close" onclick="closeModal('collateral')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="collateral-form">
+      <div class="form-group">
+        <div class="form-label">Select Loan</div>
+        <select class="form-select" id="col-loan" onchange="updateCollateralCalc()">
+          <option value="2041">#PBL-2041 — Current LTV 52%</option>
+          <option value="2067">#PBL-2067 — Current LTV 56%</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-label">BTC Amount to Add</div>
+        <input class="form-input" type="number" id="col-btc" placeholder="e.g. 0.10" step="0.001" oninput="updateCollateralCalc()" />
+        <div class="form-hint">Min 0.001 ₿ · BTC price: $60,133.10</div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="calc-row"><span class="calc-key">USD value added</span><span class="calc-val" id="col-usd">—</span></div>
+      <div class="calc-row"><span class="calc-key">New LTV ratio</span><span class="calc-val" id="col-new-ltv">—</span></div>
+      <div class="calc-row"><span class="calc-key">New liquidation price</span><span class="calc-val" id="col-liq">—</span></div>
+      <div id="col-status-msg" style="display:none;border-radius:8px;padding:12px;font-size:13px;"></div>
+    </div>
+    <div class="success-box" id="collateral-success">
+      <div class="success-icon"><svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+      <div class="success-title">Collateral Added!</div>
+      <div class="success-sub" id="collateral-success-msg">Your Bitcoin collateral has been locked in escrow.</div>
+    </div>
+    <div class="modal-actions" id="collateral-actions">
+      <button class="btn btn-outline" onclick="closeModal('collateral')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitCollateral()">Add Collateral</button>
+    </div>
+  </div>
+</div>
+
+<!-- ROLLOVER MODAL -->
+<div class="modal-backdrop" id="modal-rollover" onclick="handleBackdropClick(event,'modal-rollover')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Rollover Loan</div>
+      <button class="modal-close" onclick="closeModal('rollover')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="rollover-form">
+      <div class="form-group">
+        <div class="form-label">Select Loan to Roll Over</div>
+        <select class="form-select" id="roll-loan" onchange="updateRolloverCalc()">
+          <option value="2041">#PBL-2041 — $32,000 · Matures Aug 15</option>
+          <option value="2067">#PBL-2067 — $15,500 · Matures Oct 3</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-label">New Term</div>
+        <select class="form-select" id="roll-term" onchange="updateRolloverCalc()">
+          <option value="3">3 months</option>
+          <option value="6" selected>6 months</option>
+          <option value="12">12 months</option>
+        </select>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="calc-row"><span class="calc-key">Outstanding principal</span><span class="calc-val" id="roll-principal">—</span></div>
+      <div class="calc-row"><span class="calc-key">New interest rate</span><span class="calc-val" id="roll-rate">—</span></div>
+      <div class="calc-row"><span class="calc-key">Monthly interest</span><span class="calc-val" id="roll-monthly">—</span></div>
+      <div class="calc-row"><span class="calc-key">New maturity date</span><span class="calc-val" id="roll-maturity">—</span></div>
+      <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue-dark);">
+        Rollover extends your loan at today's rate. Collateral remains locked — no new BTC needed if LTV stays below 65%.
+      </div>
+    </div>
+    <div class="success-box" id="rollover-success">
+      <div class="success-icon"><svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+      <div class="success-title">Loan Rolled Over!</div>
+      <div class="success-sub" id="rollover-success-msg">Your loan has been extended successfully.</div>
+    </div>
+    <div class="modal-actions" id="rollover-actions">
+      <button class="btn btn-outline" onclick="closeModal('rollover')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitRollover()">Confirm Rollover</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const LOAN_DATA = {
+    '2041': { principal: 32000, collateral: 0.55, ltv: 0.52 },
+    '2067': { principal: 15500, collateral: 0.27, ltv: 0.56 }
+  };
+
+  function updateCollateralCalc() {
+    const loan = document.getElementById('col-loan').value;
+    const btc = parseFloat(document.getElementById('col-btc').value) || 0;
+    const d = LOAN_DATA[loan];
+    const usdAdded = btc * BTC_PRICE;
+    const newCollateralUsd = (d.collateral + btc) * BTC_PRICE;
+    const newLtv = d.principal / newCollateralUsd;
+    const liqPrice = d.principal / ((d.collateral + btc) * 0.8);
+    const msgEl = document.getElementById('col-status-msg');
+
+    document.getElementById('col-usd').textContent = btc > 0 ? fmt(usdAdded) : '—';
+    document.getElementById('col-new-ltv').textContent = btc > 0 ? (newLtv * 100).toFixed(1) + '%' : '—';
+    document.getElementById('col-liq').textContent = btc > 0 ? fmt(liqPrice) : '—';
+
+    if (btc > 0) {
+      msgEl.style.display = 'block';
+      if (newLtv < 0.5) {
+        msgEl.style.background = 'var(--green-light)'; msgEl.style.color = '#065f46';
+        msgEl.textContent = '✓ Excellent — LTV drops to ' + (newLtv*100).toFixed(1) + '%. Very safe position.';
+      } else if (newLtv < 0.65) {
+        msgEl.style.background = 'var(--blue-light)'; msgEl.style.color = 'var(--blue-dark)';
+        msgEl.textContent = '✓ Good — LTV at ' + (newLtv*100).toFixed(1) + '%. Healthy margin.';
+      } else {
+        msgEl.style.background = 'var(--orange-light)'; msgEl.style.color = '#92400e';
+        msgEl.textContent = '⚠ LTV still at ' + (newLtv*100).toFixed(1) + '%. Consider adding more collateral.';
+      }
+    } else {
+      msgEl.style.display = 'none';
+    }
+  }
+
+  function submitCollateral() {
+    const btc = parseFloat(document.getElementById('col-btc').value) || 0;
+    const loan = document.getElementById('col-loan').value;
+    if (btc < 0.001) {
+      document.getElementById('col-btc').style.borderColor = 'var(--red)';
+      document.getElementById('col-btc').placeholder = 'Min 0.001 ₿';
+      return;
+    }
+    document.getElementById('collateral-success-msg').textContent =
+      btc.toFixed(4) + ' ₿ (' + fmt(btc * BTC_PRICE) + ') locked in escrow for loan #PBL-' + loan + '.';
+    document.getElementById('collateral-form').style.display = 'none';
+    document.getElementById('collateral-success').style.display = 'flex';
+    document.getElementById('collateral-actions').style.display = 'none';
+    setTimeout(() => closeModal('collateral'), 2800);
+  }
+
+  function updateRolloverCalc() {
+    const loan = document.getElementById('roll-loan').value;
+    const months = parseInt(document.getElementById('roll-term').value);
+    const d = LOAN_DATA[loan];
+    const rate = RATES[months];
+    const monthly = d.principal * rate / 12;
+
+    // Compute new maturity from today
+    const now = new Date(2026, 5, 29); // June 29 2026
+    now.setMonth(now.getMonth() + months);
+    const maturity = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    document.getElementById('roll-principal').textContent = fmt(d.principal);
+    document.getElementById('roll-rate').textContent = (rate * 100).toFixed(1) + '% / yr';
+    document.getElementById('roll-monthly').textContent = fmt(monthly);
+    document.getElementById('roll-maturity').textContent = maturity;
+  }
+
+  function submitRollover() {
+    const loan = document.getElementById('roll-loan').value;
+    const maturity = document.getElementById('roll-maturity').textContent;
+    document.getElementById('rollover-success-msg').textContent =
+      'Loan #PBL-' + loan + ' extended. New maturity: ' + maturity + '.';
+    document.getElementById('rollover-form').style.display = 'none';
+    document.getElementById('rollover-success').style.display = 'flex';
+    document.getElementById('rollover-actions').style.display = 'none';
+    setTimeout(() => closeModal('rollover'), 2800);
+  }
+
+  // Init rollover calc on load
+  document.addEventListener('DOMContentLoaded', updateRolloverCalc);
 </script>
 
 </body>
