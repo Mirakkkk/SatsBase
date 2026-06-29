@@ -326,12 +326,12 @@
     <small>Bitcoin-Backed Loans</small>
   </div>
   <nav class="sidebar-nav">
-    <div class="nav-label">Overview</div>
-    <button class="nav-item active" onclick="showView('dashboard', this)">
+    <div class="nav-label borrower-only">Overview</div>
+    <button class="nav-item active borrower-only" onclick="showView('dashboard', this)">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
       Dashboard
     </button>
-    <button class="nav-item" onclick="showView('loans', this)">
+    <button class="nav-item borrower-only" onclick="showView('loans', this)">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       My Loans
     </button>
@@ -339,16 +339,16 @@
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
       Investments
     </button>
-    <button class="nav-item" onclick="showView('collateral', this)">
+    <button class="nav-item borrower-only" onclick="showView('collateral', this)">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       Collateral
     </button>
-    <div class="nav-label">Manage</div>
-    <button class="nav-item" onclick="showView('transactions', this)">
+    <div class="nav-label borrower-only">Manage</div>
+    <button class="nav-item borrower-only" onclick="showView('transactions', this)">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
       Transactions
     </button>
-    <button class="nav-item" onclick="showView('alerts', this)">
+    <button class="nav-item borrower-only" onclick="showView('alerts', this)">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       Alerts
       <span style="margin-left:auto;background:var(--red);color:white;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;">2</span>
@@ -801,23 +801,23 @@
 <!-- BOTTOM NAV (mobile) -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="bottom-nav-item active" id="bn-dashboard" onclick="showView('dashboard', document.querySelectorAll('.nav-item')[0]); setBottomNav('dashboard')">
+    <button class="bottom-nav-item borrower-only active" id="bn-dashboard" onclick="showView('dashboard', document.querySelectorAll('.nav-item')[0]); setBottomNav('dashboard')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
       Home
     </button>
-    <button class="bottom-nav-item" id="bn-loans" onclick="showView('loans', document.querySelectorAll('.nav-item')[1]); setBottomNav('loans')">
+    <button class="bottom-nav-item borrower-only" id="bn-loans" onclick="showView('loans', document.querySelectorAll('.nav-item')[1]); setBottomNav('loans')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       Loans
     </button>
-    <button class="bottom-nav-item" id="bn-collateral" onclick="showView('collateral', document.querySelectorAll('.nav-item')[3]); setBottomNav('collateral')">
+    <button class="bottom-nav-item borrower-only" id="bn-collateral" onclick="showView('collateral', document.querySelectorAll('.nav-item')[3]); setBottomNav('collateral')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       Collateral
     </button>
-    <button class="bottom-nav-item" id="bn-transactions" onclick="showView('transactions', document.querySelectorAll('.nav-item')[4]); setBottomNav('transactions')">
+    <button class="bottom-nav-item borrower-only" id="bn-transactions" onclick="showView('transactions', document.querySelectorAll('.nav-item')[4]); setBottomNav('transactions')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
       History
     </button>
-    <button class="bottom-nav-item" id="bn-alerts" onclick="showView('alerts', document.querySelectorAll('.nav-item')[5]); setBottomNav('alerts')">
+    <button class="bottom-nav-item borrower-only" id="bn-alerts" onclick="showView('alerts', document.querySelectorAll('.nav-item')[5]); setBottomNav('alerts')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       Alerts
     </button>
@@ -841,9 +841,9 @@
     selector.style.transition = 'opacity 0.3s';
     setTimeout(() => selector.style.display = 'none', 300);
     if (role === 'investor') {
-      showView('investments', document.querySelectorAll('.nav-item')[2]);
+      document.querySelectorAll('.borrower-only').forEach(el => el.style.display = 'none');
+      showView('investments', document.querySelector('.nav-item:not(.borrower-only)'));
     }
-    // borrower: default dashboard view already active
   }
 
   function showView(name, navEl) {
