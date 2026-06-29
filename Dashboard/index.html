@@ -1808,10 +1808,12 @@
     });
     ctx.textAlign = 'left';
 
-    // x-axis labels — thin out to prevent collision based on available width
+    // x-axis labels — align with canvas plot area, thin out to prevent collision
     const labelEl = document.getElementById('shield-chart-labels');
     if (labelEl) {
-      const minGap = 52; // minimum px between label centers
+      labelEl.style.paddingLeft = pad.left + 'px';
+      labelEl.style.paddingRight = pad.right + 'px';
+      const minGap = 52;
       const step = Math.max(1, Math.ceil(d.labels.length / Math.floor(chartW / minGap)));
       const visible = d.labels.map((l, i) => {
         const show = i === 0 || i === d.labels.length - 1 || i % step === 0;
