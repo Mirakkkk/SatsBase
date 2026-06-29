@@ -612,33 +612,33 @@
 
         <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Period</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 3 months</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 6 months</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 12 months</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 18 months</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 24 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> 3 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> 6 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> 12 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> 18 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> 24 months</label>
         </div>
 
         <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Currency</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" checked style="accent-color:var(--blue);width:16px;height:16px;"> USD</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;"> USDC</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;"> USDT</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;"> BTC</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> USD</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> USDC</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> USDT</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> BTC</label>
         </div>
 
         <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Loan amount (from – to)</div>
         <div style="display:flex;gap:8px;margin-bottom:8px;">
-          <input type="number" value="800" style="width:80px;border:1px solid var(--gray-200);border-radius:6px;padding:6px 8px;font-size:13px;color:var(--gray-800);">
-          <input type="number" value="100000" style="width:80px;border:1px solid var(--gray-200);border-radius:6px;padding:6px 8px;font-size:13px;color:var(--gray-800);">
+          <input type="number" id="inv-min-input" value="800" style="width:80px;border:1px solid var(--gray-200);border-radius:6px;padding:6px 8px;font-size:13px;color:var(--gray-800);" oninput="applyMarketplaceFilters()">
+          <input type="number" id="inv-max-input" value="100000" style="width:80px;border:1px solid var(--gray-200);border-radius:6px;padding:6px 8px;font-size:13px;color:var(--gray-800);" oninput="document.getElementById('inv-range').value=this.value;applyMarketplaceFilters()">
         </div>
-        <input type="range" min="800" max="100000" value="100000" style="width:100%;accent-color:var(--blue);margin-bottom:4px;">
+        <input type="range" id="inv-range" min="800" max="100000" value="100000" style="width:100%;accent-color:var(--blue);margin-bottom:4px;" oninput="document.getElementById('inv-max-input').value=this.value;applyMarketplaceFilters()">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray-400);margin-bottom:20px;"><span>800</span><span>100,000</span></div>
 
         <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Investments</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-status" checked style="accent-color:var(--blue);width:16px;height:16px;"> Available</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-status" style="accent-color:var(--blue);width:16px;height:16px;"> Matched</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-status" checked style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> Available</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-status" style="accent-color:var(--blue);width:16px;height:16px;" onchange="applyMarketplaceFilters()"> Matched</label>
         </div>
       </div>
 
@@ -654,31 +654,29 @@
             </tr>
           </thead>
           <tbody id="inv-marketplace-body">
-            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 15,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 12,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 10,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.7%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 35,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 25,000</td><td style="padding:14px 16px;font-size:14px;">18 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 23,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="30000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="20000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="15000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 15,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="8000" data-period="24" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDC 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="12000" data-period="12" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 12,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="8000" data-period="6" data-currency="USDT" data-status="matched" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDT 8,000</td><td style="padding:14px 16px;font-size:14px;">6 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="10000" data-period="12" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 10,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.7%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="35000" data-period="24" data-currency="USD" data-status="matched" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 35,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="25000" data-period="18" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USDC 25,000</td><td style="padding:14px 16px;font-size:14px;">18 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="23000" data-period="3" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 23,000</td><td style="padding:14px 16px;font-size:14px;">3 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- My Watchdogs Tab -->
-    <div id="inv-content-watchlist" style="display:none;padding:40px 0;text-align:center;color:var(--gray-400);">
-      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;opacity:0.4;"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-      <div style="font-size:15px;font-weight:600;margin-bottom:8px;">No watchlist yet</div>
-      <div style="font-size:13px;">Save loans here to track and invest when ready.</div>
-      <button onclick="openModal('invest')" style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Add to Watchlist</button>
-    </div>
-
-      <div style="font-size:13px;">Set your criteria once. We'll invest automatically when matching loans appear.</div>
-      <button style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Add to Watchlist</button>
+    <div id="inv-content-watchlist" style="display:none;padding:48px 0;">
+      <div style="text-align:center;font-size:20px;font-weight:700;color:var(--gray-800);margin-bottom:32px;">Your Watchlist will show here</div>
+      <div style="max-width:480px;margin:0 auto;background:var(--blue-light);border-radius:16px;padding:40px 36px;text-align:center;">
+        <div style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:12px;">Get new opportunities to your inbox</div>
+        <div style="font-size:14px;color:var(--gray-600);line-height:1.6;margin-bottom:28px;">Activate the Watchlist alert service to receive notifications about opportunities that match your investment preferences</div>
+        <button onclick="openModal('invest')" style="background:var(--blue);color:#fff;border:none;border-radius:100px;padding:14px 36px;font-size:15px;font-weight:600;cursor:pointer;width:100%;">Create Watchlist Alert</button>
+      </div>
     </div>
 
   </div>
@@ -832,11 +830,24 @@
     <div class="card">
       <div class="card-header"><div class="card-title">Notifications</div></div>
       <div style="padding:24px;display:flex;flex-direction:column;gap:16px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">LTV alerts</div><div style="font-size:12px;color:var(--gray-400);">Notify when LTV exceeds 65%</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
-        <div class="divider"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">Payment reminders</div><div style="font-size:12px;color:var(--gray-400);">7 days before each payment</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
-        <div class="divider"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">BTC price alerts</div><div style="font-size:12px;color:var(--gray-400);">Notify on large price moves</div></div><input type="checkbox" style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+        <div id="borrower-notif-settings">
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">LTV alerts</div><div style="font-size:12px;color:var(--gray-400);">Notify when LTV exceeds 65%</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">Payment reminders</div><div style="font-size:12px;color:var(--gray-400);">7 days before each payment</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">BTC price alerts</div><div style="font-size:12px;color:var(--gray-400);">Notify on large price moves</div></div><input type="checkbox" style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+        </div>
+        <div id="investor-notif-settings" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">New loan opportunities</div><div style="font-size:12px;color:var(--gray-400);">Notify when new loans match your criteria</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">Investment matched</div><div style="font-size:12px;color:var(--gray-400);">Notify when your funds are matched to a loan</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">Yield rate changes</div><div style="font-size:12px;color:var(--gray-400);">Notify when market rates shift significantly</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">Repayment received</div><div style="font-size:12px;color:var(--gray-400);">Notify when a loan repayment hits your account</div></div><input type="checkbox" checked style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+          <div class="divider"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;font-size:14px;">Watchlist alerts</div><div style="font-size:12px;color:var(--gray-400);">Notify when saved loans become available</div></div><input type="checkbox" style="width:18px;height:18px;accent-color:var(--blue);"/></div>
+        </div>
       </div>
     </div>
   </div>
@@ -880,6 +891,46 @@
     settings: 'Settings'
   };
 
+
+  function applyMarketplaceFilters() {
+    const periods = Array.from(document.querySelectorAll('#inv-content-marketplace input[type=checkbox]'))
+      .filter(cb => cb.checked)
+      .map(cb => parseInt(cb.closest('label').textContent.trim()));
+    const currency = document.querySelector('input[name="inv-currency"]:checked');
+    const currencyVal = currency ? currency.closest('label').textContent.trim() : 'USD';
+    const status = document.querySelector('input[name="inv-status"]:checked');
+    const statusVal = status ? status.closest('label').textContent.trim().toLowerCase() : 'available';
+    const minAmt = parseInt(document.getElementById('inv-min-input')?.value || 0);
+    const maxAmt = parseInt(document.getElementById('inv-max-input')?.value || 999999);
+
+    const rows = document.querySelectorAll('#inv-marketplace-body tr');
+    let visible = 0;
+    rows.forEach(row => {
+      const amount = parseInt(row.dataset.amount);
+      const period = parseInt(row.dataset.period);
+      const rowCurrency = row.dataset.currency;
+      const rowStatus = row.dataset.status;
+
+      const periodMatch = periods.length === 0 || periods.includes(period);
+      const currencyMatch = rowCurrency === currencyVal;
+      const statusMatch = rowStatus === statusVal;
+      const amountMatch = amount >= minAmt && amount <= maxAmt;
+
+      const show = periodMatch && currencyMatch && statusMatch && amountMatch;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    // Re-stripe visible rows
+    let idx = 0;
+    rows.forEach(row => {
+      if (row.style.display !== 'none') {
+        row.style.background = idx % 2 === 0 ? '' : 'var(--gray-50)';
+        idx++;
+      }
+    });
+  }
+
   function switchInvTab(tab) {
     ['marketplace','watchlist'].forEach(t => {
       const btn = document.getElementById('inv-tab-' + t);
@@ -900,6 +951,10 @@
     if (role === 'investor') {
       document.querySelectorAll('.borrower-only').forEach(el => el.style.display = 'none');
       showView('investments', document.querySelector('.investor-only'));
+      const bi = document.getElementById('borrower-notif-settings');
+      const ii = document.getElementById('investor-notif-settings');
+      if (bi) bi.style.display = 'none';
+      if (ii) ii.style.display = 'block';
     } else {
       document.querySelectorAll('.investor-only').forEach(el => el.style.display = 'none');
     }
