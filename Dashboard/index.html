@@ -592,17 +592,15 @@
       </div>
       <button onclick="openModal('invest')" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-        Create watchdog
+        Add to Watchlist
       </button>
     </div>
 
     <!-- Tabs -->
     <div style="display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:24px;">
       <button id="inv-tab-marketplace" onclick="switchInvTab('marketplace')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;color:var(--blue);border-bottom:2px solid var(--blue);margin-bottom:-2px;">Marketplace</button>
-      <button id="inv-tab-watchdogs" onclick="switchInvTab('watchdogs')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;">My watchdogs</button>
-      <button id="inv-tab-autoinvest" onclick="switchInvTab('autoinvest')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:6px;">
-        Auto Invest <span style="background:var(--blue-light);color:var(--blue);font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid var(--blue);">BETA</span>
-      </button>
+      <button id="inv-tab-watchlist" onclick="switchInvTab('watchlist')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;">Watchlist</button>
+
     </div>
 
     <!-- Marketplace Tab Content -->
@@ -672,19 +670,15 @@
     </div>
 
     <!-- My Watchdogs Tab -->
-    <div id="inv-content-watchdogs" style="display:none;padding:40px 0;text-align:center;color:var(--gray-400);">
+    <div id="inv-content-watchlist" style="display:none;padding:40px 0;text-align:center;color:var(--gray-400);">
       <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;opacity:0.4;"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-      <div style="font-size:15px;font-weight:600;margin-bottom:8px;">No watchdogs yet</div>
-      <div style="font-size:13px;">Create a watchdog to get notified when matching loans appear.</div>
-      <button onclick="openModal('invest')" style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Create watchdog</button>
+      <div style="font-size:15px;font-weight:600;margin-bottom:8px;">No watchlist yet</div>
+      <div style="font-size:13px;">Save loans here to track and invest when ready.</div>
+      <button onclick="openModal('invest')" style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Add to Watchlist</button>
     </div>
 
-    <!-- Auto Invest Tab -->
-    <div id="inv-content-autoinvest" style="display:none;padding:40px 0;text-align:center;color:var(--gray-400);">
-      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;opacity:0.4;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-      <div style="font-size:15px;font-weight:600;margin-bottom:8px;">Auto Invest — Beta</div>
       <div style="font-size:13px;">Set your criteria once. We'll invest automatically when matching loans appear.</div>
-      <button style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Set up Auto Invest</button>
+      <button style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Add to Watchlist</button>
     </div>
 
   </div>
@@ -887,7 +881,7 @@
   };
 
   function switchInvTab(tab) {
-    ['marketplace','watchdogs','autoinvest'].forEach(t => {
+    ['marketplace','watchlist'].forEach(t => {
       const btn = document.getElementById('inv-tab-' + t);
       const content = document.getElementById('inv-content-' + t);
       const active = t === tab;
