@@ -1,135 +1,669 @@
-<!DOCTYPE html><html lang="en" class="notranslate"><head><style data-rc-order="prepend" rc-util-key="@ant-design-icons">
-.anticon {
-  display: inline-flex;
-  alignItems: center;
-  color: inherit;
-  font-style: normal;
-  line-height: 0;
-  text-align: center;
-  text-transform: none;
-  vertical-align: -0.125em;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Plan B Lending</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.anticon > * {
-  line-height: 1;
-}
+    :root {
+      --blue: #1a56db;
+      --blue-dark: #1344b8;
+      --blue-light: #e8f0fd;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --green: #10b981;
+      --green-light: #d1fae5;
+      --orange: #f59e0b;
+      --orange-light: #fef3c7;
+      --red: #ef4444;
+      --red-light: #fee2e2;
+    }
 
-.anticon svg {
-  display: inline-block;
-}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+    }
 
-.anticon::before {
-  display: none;
-}
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 240px;
+      background: var(--white);
+      border-right: 1px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
 
-.anticon .anticon-icon {
-  display: block;
-}
+    .sidebar-logo {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--gray-200);
+    }
 
-.anticon[tabindex] {
-  cursor: pointer;
-}
+    .sidebar-logo span {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: -0.5px;
+    }
 
-.anticon-spin::before,
-.anticon-spin {
-  display: inline-block;
-  -webkit-animation: loadingCircle 1s infinite linear;
-  animation: loadingCircle 1s infinite linear;
-}
+    .sidebar-logo small {
+      display: block;
+      font-size: 11px;
+      color: var(--gray-400);
+      font-weight: 400;
+      margin-top: 2px;
+    }
 
-@-webkit-keyframes loadingCircle {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
-@keyframes loadingCircle {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-</style>
-    <!-- Start cookieyes banner -->
-    <script async="" src="https://scripts.clarity.ms/0.8.66/clarity.js"></script><script async="" src="https://static.ads-twitter.com/uwt.js"></script><script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/eee2be5efe309a8c8d58ea39/script.js"></script><script src="https://cdn-cookieyes.com/client_data/eee2be5efe309a8c8d58ea39/banner.js" async="" id="cookieyes-banner"></script>
-    <!-- End cookieyes banner -->
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = 'https://www.clarity.ms/tag/' + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', 'qtpsyms633');
-    </script>
-    <meta charset="utf-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="Firefish">
-    <link rel="apple-touch-icon" href="/logo192.png">
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="/manifest.json">
-    <title>Firefish</title>
-    <script>
-      window.BrevoConversationsSetup = {
-        startHidden: true,
-      };
-    </script>
-    <!-- Brevo Conversations {literal} -->
-    <script>
-      (function (d, w, c) {
-        w.BrevoConversationsID = '648c7a2d6dbfbb2d8e1d1aa3';
-        w[c] =
-          w[c] ||
-          function () {
-            (w[c].q = w[c].q || []).push(arguments);
-          };
-        var s = d.createElement('script');
-        s.async = true;
-        s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
-        if (d.head) d.head.appendChild(s);
-      })(document, window, 'BrevoConversations');
-    </script><script async="" src="https://conversations-widget.brevo.com/brevo-conversations.js"></script>
-    <!-- /Brevo Conversations {/literal} -->
-    <!-- Twitter conversion tracking base code -->
-    <script>
-      !(function (e, t, n, s, u, a) {
-        e.twq ||
-          ((s = e.twq =
-            function () {
-              s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
-            }),
-          (s.version = '1.1'),
-          (s.queue = []),
-          (u = t.createElement(n)),
-          (u.async = !0),
-          (u.src = 'https://static.ads-twitter.com/uwt.js'),
-          (a = t.getElementsByTagName(n)[0]),
-          a.parentNode.insertBefore(u, a));
-      })(window, document, 'script');
-      twq('config', 'onfzg');
-    </script>
-    <!-- End Twitter conversion tracking base code -->
-    <script type="module" crossorigin="" src="/assets/index-DAdX_Gyo.js"></script>
-    <link rel="modulepreload" crossorigin="" href="/assets/chunk-DBlZYh97.js">
-    <link rel="stylesheet" crossorigin="" href="/assets/index.B8sMu_tA.css">
-  <script src="https://www.clarity.ms/tag/qtpsyms633" type="text/javascript"></script></head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"><section class="ant-layout _layout_o8zgu_5"><header class="ant-layout-header"><div style="text-align: center;"><a href="index.html"><img src="/assets/logo-black.CGb5FtCA.png" alt="Logo" width="176" height="40"></a></div></header><main class="ant-layout-content"><form id="login" class="ant-form ant-form-vertical _form_9231o_5 _form_1wmdu_5"><div class="_title_1wmdu_16">Sign-in to your account</div><div class="ant-form-item"><div class="ant-row ant-form-item-row"><div class="ant-col ant-form-item-label"><label for="login_email" class="ant-form-item-required ant-form-item-required-mark-optional" title="E-mail address">E-mail address</label></div><div class="ant-col ant-form-item-control"><div class="ant-form-item-control-input"><div class="ant-form-item-control-input-content"><input placeholder="Enter your e-mail" id="login_email" aria-required="true" class="ant-input _textInput_10q3s_12" type="text" value=""></div></div></div></div></div><div class="ant-form-item"><div class="ant-row ant-form-item-row"><div class="ant-col ant-form-item-label"><label for="login_password" class="ant-form-item-required ant-form-item-required-mark-optional" title="Password">Password</label></div><div class="ant-col ant-form-item-control"><div class="ant-form-item-control-input"><div class="ant-form-item-control-input-content"><span class="ant-input-affix-wrapper ant-input-password _textInput_10q3s_12"><input placeholder="Enter your password" id="login_password" aria-required="true" type="password" class="ant-input"><span class="ant-input-suffix"><span role="img" aria-label="eye-invisible" tabindex="-1" class="anticon anticon-eye-invisible ant-input-password-icon"><svg viewBox="64 64 896 896" focusable="false" data-icon="eye-invisible" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"></path><path d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"></path></svg></span></span></span></div></div></div></div></div><div class="ant-form-item"><div class="ant-row ant-form-item-row"><div class="ant-col ant-form-item-control"><div class="ant-form-item-control-input"><div class="ant-form-item-control-input-content"><a class="_forgotPassword_1wmdu_32" href="auth/forgot-password/index.html">Forgot password?</a></div></div></div></div></div><div class="ant-form-item"><div class="ant-row ant-form-item-row"><div class="ant-col ant-form-item-control"><div class="ant-form-item-control-input"><div class="ant-form-item-control-input-content"><button type="submit" class="ant-btn ant-btn-primary _primaryButton_yrgrz_23"><span>Sign-in</span></button></div></div></div></div></div><div class="ant-form-item"><div class="ant-row ant-form-item-row"><div class="ant-col ant-form-item-control"><div class="ant-form-item-control-input"><div class="ant-form-item-control-input-content"><div class="_signUpText_1wmdu_38"><span>New to Firefish? <a href="auth/sign-up/index.html">Create account</a></span></div></div></div></div></div></div></form></main></section></div>
-  
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-400);
+      padding: 8px 8px 4px;
+      margin-top: 8px;
+    }
 
-<img src="https://t.co/1/i/adsct?bci=4&amp;dv=UTC%26en-US%26Google%20Inc.%26Linux%20x86_64%26255%26800%26600%262%2624%26800%26600%260%26na&amp;eci=3&amp;event=%7B%7D&amp;event_id=9b8bd456-8a22-4082-a8aa-f757d6cabda5&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=5b136125-8c25-40ac-8153-0997815283ea&amp;pt=Firefish&amp;tw_document_href=https%3A%2F%2Fapp.firefish.io%2Fhome&amp;tw_iframe_status=0&amp;tw_pid_src=1&amp;twpid=tw.1782756948386.98714028492130312&amp;txn_id=onfzg&amp;type=javascript&amp;version=2.3.53" height="1" width="1" fetchpriority="high" style="display: none;"><img src="https://analytics.twitter.com/1/i/adsct?bci=4&amp;dv=UTC%26en-US%26Google%20Inc.%26Linux%20x86_64%26255%26800%26600%262%2624%26800%26600%260%26na&amp;eci=3&amp;event=%7B%7D&amp;event_id=9b8bd456-8a22-4082-a8aa-f757d6cabda5&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=5b136125-8c25-40ac-8153-0997815283ea&amp;pt=Firefish&amp;tw_document_href=https%3A%2F%2Fapp.firefish.io%2Fhome&amp;tw_iframe_status=0&amp;tw_pid_src=1&amp;twpid=tw.1782756948386.98714028492130312&amp;txn_id=onfzg&amp;type=javascript&amp;version=2.3.53" height="1" width="1" fetchpriority="high" style="display: none;"></body></html>
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-600);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-item:hover { background: var(--gray-100); color: var(--gray-800); }
+    .nav-item.active { background: var(--blue-light); color: var(--blue); }
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .user-name { font-size: 14px; font-weight: 600; }
+    .user-email { font-size: 12px; color: var(--gray-400); }
+
+    .main {
+      margin-left: 240px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-title { font-size: 20px; font-weight: 700; }
+    .topbar-sub { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+    .topbar-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-outline { background: white; color: var(--blue); border: 1.5px solid var(--blue); }
+
+    .page { padding: 32px; flex: 1; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px 24px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray-400);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-change {
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-change.up { color: var(--green); }
+    .stat-change.down { color: var(--red); }
+    .stat-change.neutral { color: var(--gray-400); }
+
+    .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .card-title { font-size: 15px; font-weight: 700; }
+    .card-subtitle { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray-400);
+      padding: 12px 24px;
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    td {
+      padding: 16px 24px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--gray-50); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge-green { background: var(--green-light); color: #065f46; }
+    .badge-orange { background: var(--orange-light); color: #92400e; }
+    .badge-blue { background: var(--blue-light); color: var(--blue-dark); }
+    .badge-red { background: var(--red-light); color: #991b1b; }
+
+    .ltv-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .ltv-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: var(--gray-200);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .ltv-bar-fill { height: 100%; border-radius: 3px; }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px 24px;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--gray-200);
+      background: white;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-600);
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      text-align: center;
+    }
+
+    .action-btn:hover { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+
+    .action-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--blue-light);
+    }
+
+    .ticker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .ticker-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .collateral-info { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+    .collateral-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .collateral-key { color: var(--gray-400); font-size: 13px; }
+    .collateral-val { font-weight: 700; }
+    .divider { height: 1px; background: var(--gray-100); }
+
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span>Plan B Lending</span>
+    <small>Bitcoin-Backed Loans</small>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-label">Overview</div>
+    <a class="nav-item active" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      My Loans
+    </a>
+    <a class="nav-item" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      Investments
+    </a>
+    <a class="nav-item" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      Collateral
+    </a>
+
+    <div class="nav-label">Manage</div>
+    <a class="nav-item" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      Transactions
+    </a>
+    <a class="nav-item" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      Alerts
+      <span style="margin-left:auto;background:var(--red);color:white;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;">2</span>
+    </a>
+    <a class="nav-item" href="#">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Settings
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="avatar">AK</div>
+      <div>
+        <div class="user-name">Alex Kowalski</div>
+        <div class="user-email">alex@example.com</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-sub">Monday, June 29, 2026</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="ticker">
+        <div class="ticker-dot"></div>
+        &#8383; $108,420 <span style="color:var(--green);font-size:12px;">+2.4%</span>
+      </div>
+      <a href="#" class="btn btn-outline">Repay Loan</a>
+      <a href="#" class="btn btn-primary">+ Borrow More</a>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e8f0fd;">
+          <svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="stat-label">Total Borrowed</div>
+        <div class="stat-value">$47,500</div>
+        <div class="stat-change neutral">Across 2 active loans</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7;">
+          <svg width="20" height="20" fill="none" stroke="#d97706" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        </div>
+        <div class="stat-label">Bitcoin Collateral</div>
+        <div class="stat-value">0.82 &#8383;</div>
+        <div class="stat-change up">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+          $88,904 value
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#d1fae5;">
+          <svg width="20" height="20" fill="none" stroke="#059669" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="stat-label">Current LTV</div>
+        <div class="stat-value" style="color:#059669;">53.4%</div>
+        <div class="stat-change up">Safe — margin at 86.6%</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fee2e2;">
+          <svg width="20" height="20" fill="none" stroke="#dc2626" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="stat-label">Next Payment</div>
+        <div class="stat-value">Jul 15</div>
+        <div class="stat-change down">$1,187 due in 16 days</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Active Loans</div>
+            <div class="card-subtitle">2 loans &middot; $47,500 total</div>
+          </div>
+          <a href="#" class="btn btn-outline" style="padding:6px 14px;font-size:13px;">View All</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Loan</th>
+                <th>Amount</th>
+                <th>LTV</th>
+                <th>Rate</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="font-weight:600;">#PBL-2041</div>
+                  <div style="font-size:12px;color:var(--gray-400);">Matures Aug 15, 2026</div>
+                </td>
+                <td><strong>$32,000</strong></td>
+                <td>
+                  <div class="ltv-bar-wrap">
+                    <div class="ltv-bar-bg"><div class="ltv-bar-fill" style="width:52%;background:var(--green);"></div></div>
+                    <span style="font-size:12px;font-weight:600;color:var(--green);min-width:34px;">52%</span>
+                  </div>
+                </td>
+                <td>8.5% / yr</td>
+                <td><span class="badge badge-green">Active</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-weight:600;">#PBL-2067</div>
+                  <div style="font-size:12px;color:var(--gray-400);">Matures Oct 3, 2026</div>
+                </td>
+                <td><strong>$15,500</strong></td>
+                <td>
+                  <div class="ltv-bar-wrap">
+                    <div class="ltv-bar-bg"><div class="ltv-bar-fill" style="width:56%;background:var(--orange);"></div></div>
+                    <span style="font-size:12px;font-weight:600;color:var(--orange);min-width:34px;">56%</span>
+                  </div>
+                </td>
+                <td>9.0% / yr</td>
+                <td><span class="badge badge-green">Active</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Quick Actions</div>
+          </div>
+          <div class="actions-grid">
+            <button class="action-btn">
+              <div class="action-icon">
+                <svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              </div>
+              Borrow More
+            </button>
+            <button class="action-btn">
+              <div class="action-icon">
+                <svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg>
+              </div>
+              Repay Loan
+            </button>
+            <button class="action-btn">
+              <div class="action-icon">
+                <svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              </div>
+              Add Collateral
+            </button>
+            <button class="action-btn">
+              <div class="action-icon">
+                <svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+              Rollover Loan
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Collateral</div>
+              <div class="card-subtitle">Bitcoin locked in escrow</div>
+            </div>
+            <span class="badge badge-green">Safe</span>
+          </div>
+          <div class="collateral-info">
+            <div class="collateral-row">
+              <span class="collateral-key">Total BTC locked</span>
+              <span class="collateral-val">0.8200 &#8383;</span>
+            </div>
+            <div class="collateral-row">
+              <span class="collateral-key">USD value</span>
+              <span class="collateral-val">$88,904</span>
+            </div>
+            <div class="divider"></div>
+            <div class="collateral-row">
+              <span class="collateral-key">Liquidation threshold</span>
+              <span class="collateral-val" style="color:var(--red);">80% LTV</span>
+            </div>
+            <div class="collateral-row">
+              <span class="collateral-key">Margin to liquidation</span>
+              <span class="collateral-val" style="color:var(--green);">$23,023</span>
+            </div>
+            <div style="background:var(--gray-100);border-radius:8px;padding:12px;font-size:13px;color:var(--gray-600);">
+              <strong style="color:var(--gray-800);">Healthy position.</strong> BTC must drop to <strong>$57,927</strong> to trigger margin call.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Recent Transactions</div>
+          <div class="card-subtitle">Last 30 days</div>
+        </div>
+        <a href="#" class="btn btn-outline" style="padding:6px 14px;font-size:13px;">Export CSV</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Loan</th>
+              <th>Amount</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--gray-400);font-size:13px;">Jun 15, 2026</td>
+              <td><strong>Monthly interest payment</strong></td>
+              <td>#PBL-2041</td>
+              <td style="color:var(--red);font-weight:600;">-$226.67</td>
+              <td><span class="badge badge-orange">Interest</span></td>
+            </tr>
+            <tr>
+              <td style="color:var(--gray-400);font-size:13px;">Jun 15, 2026</td>
+              <td><strong>Monthly interest payment</strong></td>
+              <td>#PBL-2067</td>
+              <td style="color:var(--red);font-weight:600;">-$116.25</td>
+              <td><span class="badge badge-orange">Interest</span></td>
+            </tr>
+            <tr>
+              <td style="color:var(--gray-400);font-size:13px;">Jun 3, 2026</td>
+              <td><strong>Loan disbursement</strong></td>
+              <td>#PBL-2067</td>
+              <td style="color:var(--green);font-weight:600;">+$15,500</td>
+              <td><span class="badge badge-blue">Disbursement</span></td>
+            </tr>
+            <tr>
+              <td style="color:var(--gray-400);font-size:13px;">May 15, 2026</td>
+              <td><strong>Monthly interest payment</strong></td>
+              <td>#PBL-2041</td>
+              <td style="color:var(--red);font-weight:600;">-$226.67</td>
+              <td><span class="badge badge-orange">Interest</span></td>
+            </tr>
+            <tr>
+              <td style="color:var(--gray-400);font-size:13px;">Apr 12, 2026</td>
+              <td><strong>Loan disbursement</strong></td>
+              <td>#PBL-2041</td>
+              <td style="color:var(--green);font-weight:600;">+$32,000</td>
+              <td><span class="badge badge-blue">Disbursement</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
