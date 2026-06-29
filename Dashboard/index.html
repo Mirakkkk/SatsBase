@@ -735,23 +735,23 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label">Total BTC Locked</div>
-        <div class="stat-value">0.8200 &#8383;</div>
-        <div class="stat-change neutral">Across 2 loans</div>
+        <div class="stat-value" id="col-page-btc">0.8200 &#8383;</div>
+        <div class="stat-change neutral" id="col-page-btc-sub">Across 2 loans</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">USD Value</div>
-        <div class="stat-value">$49,309</div>
-        <div class="stat-change up"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg> +2.4% today</div>
+        <div class="stat-value" id="col-page-usd">$49,309</div>
+        <div class="stat-change up" id="col-page-usd-sub"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg> +2.4% today</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Avg. LTV</div>
-        <div class="stat-value" style="color:var(--green);">53.4%</div>
-        <div class="stat-change up">Safe threshold</div>
+        <div class="stat-value" id="col-page-ltv" style="color:var(--green);">53.4%</div>
+        <div class="stat-change up" id="col-page-ltv-sub">Safe threshold</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Liquidation Price</div>
-        <div class="stat-value">$72,409</div>
-        <div class="stat-change neutral">$12,276 buffer</div>
+        <div class="stat-value" id="col-page-liq">$72,409</div>
+        <div class="stat-change neutral" id="col-page-liq-sub">$12,276 buffer</div>
       </div>
     </div>
 
@@ -761,7 +761,7 @@
         <div class="table-wrap">
           <table>
             <thead><tr><th>Loan</th><th>BTC Locked</th><th>USD Value</th><th>LTV</th><th>Status</th></tr></thead>
-            <tbody>
+            <tbody id="col-page-tbody">
               <tr>
                 <td><strong>#PBL-2041</strong></td>
                 <td>0.5500 &#8383;</td>
@@ -2090,6 +2090,25 @@
     document.getElementById('col-btc-usd').textContent = fmtUsd(btcUsd);
     document.getElementById('col-margin').textContent = fmtUsd(Math.max(0, marginUsd));
     document.getElementById('col-health-note').innerHTML = '<strong style="color:var(--gray-800);">Healthy position.</strong> BTC must drop to <strong>' + fmtUsd(liqPrice) + '</strong> to trigger margin call.';
+
+    // Collateral PAGE — empty state (no BTC deposited yet)
+    document.getElementById('col-page-btc').textContent = '0.0000 ₿';
+    document.getElementById('col-page-btc-sub').textContent = 'No collateral deposited';
+    document.getElementById('col-page-usd').textContent = '$0';
+    document.getElementById('col-page-usd-sub').textContent = 'Awaiting deposit';
+    document.getElementById('col-page-ltv').textContent = '—';
+    document.getElementById('col-page-ltv-sub').textContent = 'Add collateral to activate';
+    document.getElementById('col-page-liq').textContent = '—';
+    document.getElementById('col-page-liq-sub').textContent = 'No exposure yet';
+    document.getElementById('col-page-tbody').innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align:center;padding:48px 20px;color:var(--gray-400);">
+          <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:block;margin:0 auto 12px;opacity:0.35;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <div style="font-size:15px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">No collateral deposited yet</div>
+          <div style="font-size:13px;margin-bottom:16px;">Lock your Bitcoin in DLC escrow to secure your loan</div>
+          <button class="btn btn-primary" onclick="openModal('collateral')">+ Add Collateral</button>
+        </td>
+      </tr>`;
 
     // My Loans section
     const creditLimit = Math.round(btcUsd * 0.82);
