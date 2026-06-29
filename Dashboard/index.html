@@ -1901,37 +1901,46 @@
 
     <!-- STEP 2B: No collateral -->
     <div id="ob-panel-2b" style="display:none;">
-      <div style="text-align:center;padding:20px 0;">
-        <div style="font-size:52px;margin-bottom:20px;">🛤️</div>
-        <div style="font-size:24px;font-weight:800;color:#0a1628;margin-bottom:12px;">We'll guide you through it</div>
-        <div style="font-size:15px;color:#6b7280;line-height:1.6;margin-bottom:36px;">
-          No Bitcoin yet? No problem. We have a structured path to help you get collateral-ready — starting with identity verification and a short course on Bitcoin-backed lending.
+      <div style="font-size:22px;font-weight:800;color:#0a1628;margin-bottom:28px;">Get started with Plan B Lending</div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- KYC -->
+        <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px 24px 24px 20px;display:flex;align-items:center;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:17px;font-weight:700;color:#0a1628;margin-bottom:6px;">Verify your account</div>
+            <div style="font-size:14px;color:#6b7280;line-height:1.5;">To proceed with a loan application, we require identity verification. Quick process — takes under 5 minutes.</div>
+          </div>
+          <button style="flex-shrink:0;background:#0245AC;color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;opacity:0.5;" disabled>Verify</button>
         </div>
-        <div style="display:flex;flex-direction:column;gap:14px;text-align:left;margin-bottom:36px;">
-          <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:18px 20px;">
-            <div style="width:36px;height:36px;background:#e8f0fd;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#0245AC;font-size:15px;">1</div>
-            <div><div style="font-weight:600;color:#0a1628;margin-bottom:2px;">Identity verification (KYC)</div><div style="font-size:13px;color:#9ca3af;">Quick verification — takes under 5 minutes</div></div>
-            <span style="margin-left:auto;font-size:11px;font-weight:700;color:#9ca3af;background:#f3f4f6;padding:4px 10px;border-radius:20px;">Coming soon</span>
+
+        <!-- Course -->
+        <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px 24px 24px 20px;display:flex;align-items:center;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:17px;font-weight:700;color:#0a1628;margin-bottom:6px;">Borrowing basics course</div>
+            <div style="font-size:14px;color:#6b7280;line-height:1.5;">Learn how Bitcoin-backed lending works, what collateral means, and how to manage your LTV ratio. Short video course.</div>
           </div>
-          <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:18px 20px;">
-            <div style="width:36px;height:36px;background:#e8f0fd;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#0245AC;font-size:15px;">2</div>
-            <div><div style="font-weight:600;color:#0a1628;margin-bottom:2px;">Bitcoin basics course</div><div style="font-size:13px;color:#9ca3af;">Short course on collateral and how loans work</div></div>
-            <span style="margin-left:auto;font-size:11px;font-weight:700;color:#9ca3af;background:#f3f4f6;padding:4px 10px;border-radius:20px;">Coming soon</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:18px 20px;">
-            <div style="width:36px;height:36px;background:#e8f0fd;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#0245AC;font-size:15px;">3</div>
-            <div><div style="font-weight:600;color:#0a1628;margin-bottom:2px;">Get your first loan</div><div style="font-size:13px;color:#9ca3af;">Once you have BTC, your application is instant</div></div>
-            <span style="margin-left:auto;font-size:11px;font-weight:700;color:#10b981;background:#d1fae5;padding:4px 10px;border-radius:20px;">After steps 1–2</span>
-          </div>
+          <button style="flex-shrink:0;background:#0245AC;color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;opacity:0.5;" disabled>Start course</button>
         </div>
-        <div style="background:#fff;border-radius:14px;padding:20px;">
-          <div style="font-size:14px;font-weight:600;color:#0a1628;margin-bottom:12px;">Get notified when it launches</div>
-          <div style="display:flex;gap:10px;">
-            <input id="ob-email" type="email" placeholder="your@email.com" style="flex:1;border:2px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:14px;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0245AC'" onblur="this.style.borderColor='#e5e7eb'" />
-            <button onclick="submitNoCollateral()" style="background:#0245AC;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;">Notify me</button>
+
+        <!-- Loan -->
+        <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px 24px 24px 20px;display:flex;align-items:center;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:17px;font-weight:700;color:#0a1628;margin-bottom:6px;">Request a loan</div>
+            <div style="font-size:14px;color:#6b7280;line-height:1.5;">Don't sell your Bitcoin. Use it as collateral and receive cash directly to your bank account.</div>
           </div>
-          <div id="ob-email-confirm" style="display:none;font-size:13px;color:#10b981;margin-top:10px;font-weight:500;">✓ You're on the list. We'll reach out when the no-collateral path goes live.</div>
+          <button style="flex-shrink:0;background:transparent;color:#0245AC;border:2px solid #0245AC;border-radius:12px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;opacity:0.4;" disabled>Request a loan</button>
         </div>
+
+      </div>
+
+      <div style="margin-top:24px;background:#fff;border-radius:14px;padding:20px;border:1.5px solid #e5e7eb;">
+        <div style="font-size:14px;font-weight:600;color:#0a1628;margin-bottom:12px;">Get notified when it launches</div>
+        <div style="display:flex;gap:10px;">
+          <input id="ob-email" type="email" placeholder="your@email.com" style="flex:1;border:2px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:14px;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0245AC'" onblur="this.style.borderColor='#e5e7eb'" />
+          <button onclick="submitNoCollateral()" style="background:#0245AC;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;">Notify me</button>
+        </div>
+        <div id="ob-email-confirm" style="display:none;font-size:13px;color:#10b981;margin-top:10px;font-weight:500;">✓ You're on the list. We'll reach out when this path goes live.</div>
       </div>
     </div>
 
