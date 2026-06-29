@@ -379,10 +379,6 @@
       </div>
     </div>
     <div class="topbar-actions">
-      <div class="ticker borrower-only">
-        <div class="ticker-dot"></div>
-        &#8383; $60,133.10 <span style="color:var(--red);font-size:12px;">-1.2%</span>
-      </div>
       <button class="btn btn-outline borrower-only" onclick="openModal('repay')">Repay Loan</button>
       <button class="btn btn-primary borrower-only" onclick="openModal('borrow')">+ Borrow More</button>
     </div>
@@ -454,6 +450,7 @@
             <button class="action-btn" onclick="openModal('repay')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg></div>Repay Loan</button>
             <button class="action-btn" onclick="openModal('collateral')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>Add Collateral</button>
             <button class="action-btn" onclick="openModal('rollover')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>Rollover Loan</button>
+            <button class="action-btn" onclick="document.getElementById('view-shield-section').scrollIntoView({behavior:'smooth'})"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>Liquidation Shield</button>
           </div>
         </div>
         <div class="card">
@@ -466,6 +463,52 @@
             <div class="collateral-row"><span class="collateral-key">Margin to liquidation</span><span class="collateral-val" style="color:var(--green);">$1,809</span></div>
             <div style="background:var(--gray-100);border-radius:8px;padding:12px;font-size:13px;color:var(--gray-600);"><strong style="color:var(--gray-800);">Healthy position.</strong> BTC must drop to <strong>$72,409</strong> to trigger margin call.</div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIQUIDATION SHIELD -->
+    <div class="card" id="view-shield-section">
+      <div class="card-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg width="20" height="20" fill="none" stroke="#059669" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <div>
+            <div class="card-title">Liquidation Shield</div>
+            <div class="card-subtitle" style="display:flex;align-items:center;gap:6px;">
+              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              2 active loans protected
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:4px;">
+          <button class="btn btn-sm" id="shield-btn-1d" onclick="setShieldRange('1d')" style="padding:4px 10px;font-size:12px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;">1D</button>
+          <button class="btn btn-sm" id="shield-btn-1w" onclick="setShieldRange('1w')" style="padding:4px 10px;font-size:12px;background:var(--gray-100);color:var(--gray-600);border:none;border-radius:6px;cursor:pointer;">1W</button>
+          <button class="btn btn-sm" id="shield-btn-1m" onclick="setShieldRange('1m')" style="padding:4px 10px;font-size:12px;background:var(--gray-100);color:var(--gray-600);border:none;border-radius:6px;cursor:pointer;">1M</button>
+          <button class="btn btn-sm" id="shield-btn-1y" onclick="setShieldRange('1y')" style="padding:4px 10px;font-size:12px;background:var(--gray-100);color:var(--gray-600);border:none;border-radius:6px;cursor:pointer;">1Y</button>
+        </div>
+      </div>
+      <div style="position:relative;height:200px;margin-top:8px;">
+        <canvas id="shield-chart" style="width:100%;height:200px;"></canvas>
+        <div style="position:absolute;top:8px;left:0;display:flex;gap:24px;font-size:12px;color:var(--gray-400);">
+          <span>$70,876</span>
+        </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;font-size:11px;color:var(--gray-400);" id="shield-chart-labels"></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200);">
+        <div style="flex:1;background:var(--gray-50);border-radius:10px;padding:12px;">
+          <div style="font-size:11px;color:var(--gray-400);margin-bottom:2px;">Margin call at</div>
+          <div style="font-size:15px;font-weight:700;color:var(--orange);">$72,409</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">70% LTV threshold</div>
+        </div>
+        <div style="flex:1;background:var(--gray-50);border-radius:10px;padding:12px;">
+          <div style="font-size:11px;color:var(--gray-400);margin-bottom:2px;">Liquidation at</div>
+          <div style="font-size:15px;font-weight:700;color:var(--red);">$57,818</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">80% LTV threshold</div>
+        </div>
+        <div style="flex:1;background:#d1fae5;border-radius:10px;padding:12px;">
+          <div style="font-size:11px;color:#059669;margin-bottom:2px;">Safety buffer</div>
+          <div style="font-size:15px;font-weight:700;color:#059669;">$2,315</div>
+          <div style="font-size:11px;color:#059669;margin-top:2px;">before margin call</div>
         </div>
       </div>
     </div>
@@ -1159,13 +1202,23 @@
           <option value="24">24 months</option>
         </select>
       </div>
+      <div class="form-group" style="margin-bottom:4px;">
+        <div class="form-label" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span>TARGET LTV</span>
+          <span id="ltv-badge" style="background:var(--green);color:#fff;font-size:12px;font-weight:700;padding:2px 9px;border-radius:12px;min-width:40px;text-align:center;">50%</span>
+        </div>
+        <input type="range" id="borrow-ltv" min="20" max="70" value="50" step="1" oninput="updateBorrowCalc()" style="width:100%;accent-color:var(--green);height:6px;cursor:pointer;" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray-400);margin-top:6px;">
+          <span>20% · safer</span><span id="ltv-liq-label">Liquidation at 80%</span><span>70% · max</span>
+        </div>
+      </div>
       <div class="modal-divider"></div>
       <div class="calc-row"><span class="calc-key">Interest rate</span><span class="calc-val" id="borrow-rate">8.5% / yr</span></div>
       <div class="calc-row"><span class="calc-key">BTC collateral needed</span><span class="calc-val" id="borrow-btc">—</span></div>
       <div class="calc-row"><span class="calc-key">Monthly interest</span><span class="calc-val" id="borrow-monthly">—</span></div>
       <div class="calc-row"><span class="calc-key">Total interest cost</span><span class="calc-val" id="borrow-interest">—</span></div>
       <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue-dark);">
-        &#8383; BTC price used: <strong>$60,133.10</strong> &nbsp;·&nbsp; Collateral at 50% LTV
+        &#8383; BTC price used: <strong>$60,133.10</strong> &nbsp;·&nbsp; Collateral at <span id="borrow-ltv-info">50%</span> LTV
       </div>
     </div>
     <div class="success-box" id="borrow-success">
@@ -1259,7 +1312,37 @@
   function updateBorrowCalc() {
     const amount = parseFloat(document.getElementById('borrow-amount').value) || 0;
     const months = parseInt(document.getElementById('borrow-term').value);
-    const rate = RATES[months];
+    const ltvSlider = document.getElementById('borrow-ltv');
+    const ltv = ltvSlider ? (parseInt(ltvSlider.value) / 100) : 0.5;
+    const ltvPct = Math.round(ltv * 100);
+
+    // LTV badge color: green ≤45%, yellow ≤60%, orange ≤65%, red >65%
+    const badge = document.getElementById('ltv-badge');
+    const liqLabel = document.getElementById('ltv-liq-label');
+    if (badge) {
+      badge.textContent = ltvPct + '%';
+      if (ltvPct <= 45) { badge.style.background = 'var(--green)'; }
+      else if (ltvPct <= 60) { badge.style.background = '#f59e0b'; }
+      else if (ltvPct <= 65) { badge.style.background = 'var(--orange)'; }
+      else { badge.style.background = 'var(--red)'; }
+    }
+    if (liqLabel) {
+      liqLabel.textContent = ltvPct >= 63 ? 'Approaching liquidation (80%)' : 'Liquidation at 80%';
+    }
+    // slider track color
+    if (ltvSlider) {
+      const pct = (ltvPct - 20) / 50 * 100;
+      const color = ltvPct <= 45 ? '#10b981' : ltvPct <= 60 ? '#f59e0b' : ltvPct <= 65 ? '#f97316' : '#ef4444';
+      ltvSlider.style.accentColor = color;
+    }
+    if (document.getElementById('borrow-ltv-info')) {
+      document.getElementById('borrow-ltv-info').textContent = ltvPct + '%';
+    }
+
+    // LTV-adjusted rate: lower LTV = slightly lower rate
+    const baseRate = RATES[months];
+    const rateAdj = ltv <= 0.35 ? -0.005 : ltv >= 0.60 ? 0.01 : ltv >= 0.50 ? 0.005 : 0;
+    const rate = Math.max(0.07, baseRate + rateAdj);
 
     if (amount < 1) {
       document.getElementById('borrow-btc').textContent = '—';
@@ -1269,7 +1352,7 @@
       return;
     }
 
-    const btcNeeded = amount / (BTC_PRICE * 0.5);
+    const btcNeeded = amount / (BTC_PRICE * ltv);
     const monthlyInterest = amount * rate / 12;
     const totalInterest = monthlyInterest * months;
 
@@ -1618,7 +1701,101 @@
   }
 
   // Init rollover calc on load
-  document.addEventListener('DOMContentLoaded', () => { updateRolloverCalc(); updateInvestCalc(); });
+  document.addEventListener('DOMContentLoaded', () => { updateRolloverCalc(); updateInvestCalc(); initShieldChart('1d'); });
+
+  // ---- Liquidation Shield Chart ----
+  const SHIELD_DATA = {
+    '1d': {
+      labels: ['00:00','02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00'],
+      prices: [60280,60210,60190,60140,60090,60133,60200,60170,60050,60090,60133,60180]
+    },
+    '1w': {
+      labels: ['Jun 23','Jun 24','Jun 25','Jun 26','Jun 27','Jun 28','Jun 29'],
+      prices: [62500,62000,59800,59400,60100,60500,60133]
+    },
+    '1m': {
+      labels: ['Jun 1','Jun 6','Jun 11','Jun 16','Jun 21','Jun 26','Jun 29'],
+      prices: [58000,59500,61000,62500,61000,60500,60133]
+    },
+    '1y': {
+      labels: ['Jul 25','Sep 25','Nov 25','Jan 26','Mar 26','May 26','Jun 26'],
+      prices: [66000,60000,95000,101000,84000,69000,60133]
+    }
+  };
+  let shieldChart = null;
+  let activeRange = '1d';
+
+  function setShieldRange(range) {
+    activeRange = range;
+    ['1d','1w','1m','1y'].forEach(r => {
+      const btn = document.getElementById('shield-btn-' + r);
+      if (btn) {
+        btn.style.background = r === range ? 'var(--blue)' : 'var(--gray-100)';
+        btn.style.color = r === range ? '#fff' : 'var(--gray-600)';
+      }
+    });
+    initShieldChart(range);
+  }
+
+  function initShieldChart(range) {
+    const canvas = document.getElementById('shield-chart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const d = SHIELD_DATA[range];
+    const W = canvas.offsetWidth || 800, H = 200;
+    canvas.width = W; canvas.height = H;
+
+    const prices = d.prices;
+    const minP = Math.min(...prices) * 0.995;
+    const maxP = Math.max(...prices) * 1.005;
+    const pad = { top: 20, right: 10, bottom: 30, left: 10 };
+    const chartW = W - pad.left - pad.right;
+    const chartH = H - pad.top - pad.bottom;
+
+    const px = (i) => pad.left + (i / (prices.length - 1)) * chartW;
+    const py = (v) => pad.top + (1 - (v - minP) / (maxP - minP)) * chartH;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // liquidation line
+    const liqPrice = 57818;
+    if (liqPrice >= minP && liqPrice <= maxP) {
+      const ly = py(liqPrice);
+      ctx.strokeStyle = '#fee2e2'; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(pad.left, ly); ctx.lineTo(W - pad.right, ly); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // area fill
+    const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
+    grad.addColorStop(0, 'rgba(26,86,219,0.18)');
+    grad.addColorStop(1, 'rgba(26,86,219,0)');
+    ctx.beginPath();
+    ctx.moveTo(px(0), py(prices[0]));
+    prices.forEach((v, i) => { if (i > 0) ctx.lineTo(px(i), py(v)); });
+    ctx.lineTo(px(prices.length - 1), py(minP));
+    ctx.lineTo(px(0), py(minP));
+    ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+
+    // line
+    ctx.beginPath();
+    ctx.strokeStyle = '#1a56db'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+    prices.forEach((v, i) => { i === 0 ? ctx.moveTo(px(i), py(v)) : ctx.lineTo(px(i), py(v)); });
+    ctx.stroke();
+
+    // y-axis labels
+    ctx.fillStyle = '#9ca3af'; ctx.font = '11px system-ui';
+    [minP, (minP+maxP)/2, maxP].forEach(v => {
+      ctx.fillText('$' + Math.round(v).toLocaleString(), pad.left + 2, py(v) - 3);
+    });
+
+    // x-axis labels
+    const labelEl = document.getElementById('shield-chart-labels');
+    if (labelEl) {
+      labelEl.innerHTML = d.labels.map(l => `<span>${l}</span>`).join('');
+    }
+  }
 </script>
 
 </body>
