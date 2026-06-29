@@ -1265,9 +1265,57 @@
       <div class="success-title">Application Submitted!</div>
       <div class="success-sub" id="borrow-success-msg">Your loan application is under review. Funds typically arrive within 24 hours.</div>
     </div>
+    <div class="modal-body" id="borrow-review" style="display:none;">
+      <div style="text-align:center;padding-bottom:4px;">
+        <div style="font-size:10px;font-weight:700;color:var(--blue);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">YOU'LL RECEIVE</div>
+        <div style="font-size:40px;font-weight:800;color:var(--gray-800);line-height:1;" id="rv-amount-big">—</div>
+        <div style="font-size:12px;color:var(--gray-400);margin-top:8px;line-height:1.5;" id="rv-amount-sub">Disbursed in USDC to your wallet</div>
+      </div>
+      <div class="modal-divider"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--gray-400);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">LOAN TERMS</div>
+      <div class="calc-row"><span class="calc-key">Loan amount</span><span class="calc-val" id="rv-loan-amount">—</span></div>
+      <div class="calc-row"><span class="calc-key">Term</span><span class="calc-val" id="rv-term">—</span></div>
+      <div class="calc-row"><span class="calc-key">Interest rate</span><span class="calc-val" id="rv-rate">—</span></div>
+      <div class="calc-row"><span class="calc-key">Monthly interest</span><span class="calc-val" id="rv-monthly">—</span></div>
+      <div class="calc-row"><span class="calc-key">Total interest</span><span class="calc-val" id="rv-total-interest">—</span></div>
+      <div class="calc-row" style="font-weight:700;border-top:1px solid var(--gray-100);padding-top:10px;margin-top:2px;"><span class="calc-key">Total to repay</span><span class="calc-val" id="rv-total-repay">—</span></div>
+      <div id="rv-collateral-section">
+        <div class="modal-divider"></div>
+        <div style="font-size:10px;font-weight:700;color:var(--gray-400);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">COLLATERAL &amp; RISK</div>
+        <div style="border:1.5px solid #f59e0b;border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+          <div class="calc-row" style="color:#d97706;font-weight:700;margin-bottom:6px;"><span class="calc-key">Collateral to lock</span><span class="calc-val" id="rv-collateral">—</span></div>
+          <div class="calc-row" style="margin-bottom:6px;"><span class="calc-key">Target LTV</span><span class="calc-val" id="rv-target-ltv">—</span></div>
+          <div class="calc-row" style="margin-bottom:0;"><span class="calc-key">Liquidation LTV</span><span class="calc-val">80%</span></div>
+        </div>
+        <div style="background:#fef3c7;border-radius:8px;padding:11px 13px;font-size:12px;color:#92400e;display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
+          <span style="flex-shrink:0;font-size:14px;">⚠️</span>
+          <span>If Bitcoin falls to <strong id="rv-liq-price">—</strong> (<span id="rv-liq-pct">—</span>), part of your collateral may be sold to repay the loan. Add collateral or turn on Auto top-up to widen this buffer.</span>
+        </div>
+        <div style="background:var(--blue-light);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--blue-dark);margin-bottom:12px;">
+          &#8383; BTC price used: <strong>$60,133.10</strong>
+        </div>
+        <label style="display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--gray-600);cursor:pointer;line-height:1.5;">
+          <input type="checkbox" id="rv-consent" style="margin-top:3px;flex-shrink:0;accent-color:var(--blue);" />
+          I understand this loan is backed by my Bitcoin, and that it can be liquidated if BTC reaches the price above.
+        </label>
+      </div>
+      <div id="rv-noc-section" style="display:none;">
+        <div class="modal-divider"></div>
+        <div style="background:var(--blue-light);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--blue-dark);">
+          No Bitcoin collateral required. Your application will be reviewed by our team and funds disbursed within 24–48 hours.
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--gray-400);text-align:center;padding-top:2px;">
+        Illustrative estimate only. Not a binding offer.
+      </div>
+    </div>
     <div class="modal-actions" id="borrow-actions">
       <button class="btn btn-outline" onclick="closeModal('borrow')">Cancel</button>
       <button class="btn btn-primary" onclick="submitBorrow()">Apply for Loan</button>
+    </div>
+    <div class="modal-actions" id="borrow-review-actions" style="display:none;">
+      <button class="btn btn-outline" onclick="backFromBorrowReview()">Back</button>
+      <button class="btn btn-primary" id="borrow-confirm-btn" onclick="confirmBorrow()">Confirm &amp; borrow</button>
     </div>
   </div>
 </div>
@@ -1287,13 +1335,18 @@
   function closeModal(type) {
     document.getElementById('modal-' + type).classList.remove('open');
     document.body.style.overflow = '';
-    // reset success state
     const form = document.getElementById(type + '-form');
     const success = document.getElementById(type + '-success');
     const actions = document.getElementById(type + '-actions');
+    const review = document.getElementById(type + '-review');
+    const reviewActions = document.getElementById(type + '-review-actions');
     if (form) form.style.display = '';
     if (success) success.style.display = 'none';
     if (actions) actions.style.display = '';
+    if (review) review.style.display = 'none';
+    if (reviewActions) reviewActions.style.display = 'none';
+    const consent = document.getElementById('rv-consent');
+    if (consent) consent.checked = false;
   }
 
   var _invDetailsRow = null;
@@ -1483,11 +1536,65 @@
       document.getElementById('borrow-amount').placeholder = 'Minimum $1,000';
       return;
     }
-    document.getElementById('borrow-success-msg').textContent =
-      'Your application for ' + fmt(amount) + ' is under review. Funds typically arrive within 24 hours.';
+    const months = parseInt(document.getElementById('borrow-term').value);
+    const ltvSlider = document.getElementById('borrow-ltv');
+    const ltv = ltvSlider ? (parseInt(ltvSlider.value) / 100) : 0.5;
+    const ltvPct = Math.round(ltv * 100);
+    const baseRate = RATES[months];
+    const rateAdj = ltv <= 0.35 ? -0.005 : ltv >= 0.60 ? 0.01 : ltv >= 0.50 ? 0.005 : 0;
+    const rate = Math.max(0.07, baseRate + rateAdj);
+    const btcNeeded = amount / (BTC_PRICE * ltv);
+    const monthlyInterest = amount * rate / 12;
+    const totalInterest = monthlyInterest * months;
+    const totalRepay = amount + totalInterest;
+    const liquidationPrice = BTC_PRICE * ltv / 0.80;
+    const liqDrop = ((liquidationPrice - BTC_PRICE) / BTC_PRICE * 100).toFixed(1);
+    const maturity = new Date();
+    maturity.setMonth(maturity.getMonth() + months);
+    const matureStr = maturity.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+
+    document.getElementById('rv-amount-big').textContent = '$' + Math.round(amount).toLocaleString('en-US');
+    document.getElementById('rv-amount-sub').textContent = 'Disbursed in USDC to your wallet · ' + fmtBtc(btcNeeded) + ' locked as collateral';
+    document.getElementById('rv-loan-amount').textContent = fmt(amount);
+    document.getElementById('rv-term').textContent = months + ' month' + (months > 1 ? 's' : '') + ' · matures ' + matureStr;
+    document.getElementById('rv-rate').textContent = (rate * 100).toFixed(1) + '% APR';
+    document.getElementById('rv-monthly').textContent = fmt(monthlyInterest);
+    document.getElementById('rv-total-interest').textContent = fmt(totalInterest);
+    document.getElementById('rv-total-repay').textContent = fmt(totalRepay);
+    document.getElementById('rv-collateral').textContent = fmtBtc(btcNeeded);
+    document.getElementById('rv-target-ltv').textContent = ltvPct + '%';
+    document.getElementById('rv-liq-price').textContent = '$' + Math.round(liquidationPrice).toLocaleString('en-US');
+    document.getElementById('rv-liq-pct').textContent = liqDrop + '%';
+    document.getElementById('rv-collateral-section').style.display = '';
+    document.getElementById('rv-noc-section').style.display = 'none';
+
     document.getElementById('borrow-form').style.display = 'none';
-    document.getElementById('borrow-success').style.display = 'flex';
     document.getElementById('borrow-actions').style.display = 'none';
+    document.getElementById('borrow-review').style.display = '';
+    document.getElementById('borrow-review-actions').style.display = '';
+    document.getElementById('borrow-confirm-btn').disabled = false;
+  }
+
+  function backFromBorrowReview() {
+    document.getElementById('borrow-review').style.display = 'none';
+    document.getElementById('borrow-review-actions').style.display = 'none';
+    document.getElementById('borrow-form').style.display = '';
+    document.getElementById('borrow-actions').style.display = '';
+  }
+
+  function confirmBorrow() {
+    const consent = document.getElementById('rv-consent');
+    if (consent && !consent.checked) {
+      consent.closest('label').style.color = 'var(--red)';
+      consent.style.outlineColor = 'var(--red)';
+      return;
+    }
+    const amountText = document.getElementById('rv-amount-big').textContent;
+    document.getElementById('borrow-success-msg').textContent =
+      'Your application for ' + amountText + ' is under review. Funds typically arrive within 24 hours.';
+    document.getElementById('borrow-review').style.display = 'none';
+    document.getElementById('borrow-review-actions').style.display = 'none';
+    document.getElementById('borrow-success').style.display = 'flex';
     setTimeout(() => closeModal('borrow'), 2800);
   }
 
@@ -2858,6 +2965,10 @@ function openNocLoanModal() {
 function closeNocLoanModal() {
   document.getElementById('noc-loan-modal').style.display = 'none';
   document.body.style.overflow = '';
+  var formBody = document.getElementById('noc-loan-form-body');
+  var reviewPanel = document.getElementById('noc-review-panel');
+  if (formBody) formBody.style.display = '';
+  if (reviewPanel) reviewPanel.style.display = 'none';
 }
 function selectNocTerm(btn) {
   document.querySelectorAll('.noc-term-btn').forEach(function(b){ b.classList.remove('noc-term-selected'); });
@@ -2878,6 +2989,33 @@ function updateNocCalc() {
 function submitNocLoan() {
   var amount = parseFloat(document.getElementById('noc-loan-amount').value) || 0;
   if (amount < 1000) { document.getElementById('noc-loan-amount').style.borderColor='#ef4444'; return; }
+  var rate = NOC_RATES[String(nocLoanTerm)] || 0.085;
+  var monthly = amount * rate / 12;
+  var totalRepay = amount + monthly * nocLoanTerm;
+  var fmtUsd = function(v) { return '$' + Math.round(v).toLocaleString('en-US'); };
+  var maturity = new Date();
+  maturity.setMonth(maturity.getMonth() + nocLoanTerm);
+  var matureStr = maturity.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+
+  document.getElementById('noc-rv-amount-big').textContent = fmtUsd(amount);
+  document.getElementById('noc-rv-loan-amount').textContent = fmtUsd(amount);
+  document.getElementById('noc-rv-term').textContent = nocLoanTerm + ' months · matures ' + matureStr;
+  document.getElementById('noc-rv-rate').textContent = (rate * 100).toFixed(1) + '% APR';
+  document.getElementById('noc-rv-monthly').textContent = fmtUsd(monthly);
+  document.getElementById('noc-rv-total').textContent = fmtUsd(totalRepay);
+
+  document.getElementById('noc-loan-form-body').style.display = 'none';
+  document.getElementById('noc-review-panel').style.display = '';
+}
+
+function backFromNocReview() {
+  document.getElementById('noc-loan-form-body').style.display = '';
+  document.getElementById('noc-review-panel').style.display = 'none';
+}
+
+function confirmNocLoan() {
+  var amount = parseFloat(document.getElementById('noc-loan-amount').value) || 0;
+  document.getElementById('noc-review-panel').style.display = 'none';
   closeNocLoanModal();
   goToNocDashboard(amount, nocLoanTerm);
 }
@@ -2980,7 +3118,7 @@ function goToNocDashboard(amount, termMonths) {
         <button onclick="closeNocLoanModal()" style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:24px;line-height:1;margin-top:-4px;">&times;</button>
       </div>
     </div>
-    <div style="padding:24px 32px 32px;">
+    <div id="noc-loan-form-body" style="padding:24px 32px 32px;">
       <!-- Amount -->
       <div style="margin-bottom:22px;">
         <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">How much do you need?</label>
@@ -3010,7 +3148,31 @@ function goToNocDashboard(amount, termMonths) {
         <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#6b7280;">Monthly payment</span><strong id="noc-sum-monthly">—</strong></div>
         <div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">Total repayable</span><strong id="noc-sum-total">—</strong></div>
       </div>
-      <button onclick="submitNocLoan()" style="width:100%;padding:15px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;">Submit loan request →</button>
+      <button onclick="submitNocLoan()" style="width:100%;padding:15px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;">Review loan →</button>
+    </div>
+    <!-- NOC Review Step -->
+    <div id="noc-review-panel" style="display:none;padding:28px 32px 32px;">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-size:10px;font-weight:700;color:#0245AC;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">YOU'LL RECEIVE</div>
+        <div style="font-size:38px;font-weight:800;color:#0a1628;line-height:1;" id="noc-rv-amount-big">—</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:8px;">Disbursed to your bank account after approval</div>
+      </div>
+      <div style="height:1px;background:#f3f4f6;margin-bottom:16px;"></div>
+      <div style="font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">LOAN TERMS</div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;"><span style="color:#6b7280;">Loan amount</span><span style="font-weight:600;color:#0a1628;" id="noc-rv-loan-amount">—</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;"><span style="color:#6b7280;">Term</span><span style="font-weight:600;color:#0a1628;" id="noc-rv-term">—</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;"><span style="color:#6b7280;">Interest rate</span><span style="font-weight:600;color:#0a1628;" id="noc-rv-rate">—</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px;"><span style="color:#6b7280;">Monthly payment</span><span style="font-weight:600;color:#0a1628;" id="noc-rv-monthly">—</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding-top:10px;border-top:1px solid #f3f4f6;margin-bottom:16px;"><span style="color:#0a1628;font-weight:700;">Total to repay</span><span style="font-weight:800;color:#0a1628;" id="noc-rv-total">—</span></div>
+      <div style="height:1px;background:#f3f4f6;margin-bottom:16px;"></div>
+      <div style="background:#f0f6ff;border-radius:10px;padding:14px 16px;font-size:13px;color:#0245AC;margin-bottom:20px;">
+        No Bitcoin collateral required. Your application will be reviewed and funds disbursed within 24–48 hours once approved.
+      </div>
+      <div style="font-size:11px;color:#9ca3af;text-align:center;margin-bottom:20px;">Illustrative estimate only. Not a binding offer.</div>
+      <div style="display:flex;gap:12px;">
+        <button onclick="backFromNocReview()" style="flex:1;padding:14px;background:#fff;color:#374151;border:1.5px solid #e5e7eb;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;">Back</button>
+        <button onclick="confirmNocLoan()" style="flex:1;padding:14px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;">Confirm &amp; borrow</button>
+      </div>
     </div>
   </div>
 </div>
