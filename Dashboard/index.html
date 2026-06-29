@@ -270,7 +270,7 @@
   <div style="display:flex;gap:24px;width:100%;max-width:780px;padding:0 24px;">
 
     <!-- BORROWER CARD -->
-    <div onclick="enterDashboard('borrower')" style="
+    <div onclick="openBorrowOnboard()" style="
       flex:1;background:#fff;border-radius:20px;padding:48px 36px;
       text-align:center;cursor:pointer;
       box-shadow:0 2px 16px rgba(2,69,172,0.08);
@@ -1795,5 +1795,244 @@
   }
 </script>
 
+<!-- BORROW ONBOARDING OVERLAY -->
+<div id="borrow-onboard" style="display:none;position:fixed;inset:0;background:#f0f4ff;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow-y:auto;">
+  <div style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
+
+    <!-- Back -->
+    <button onclick="closeBorrowOnboard()" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;color:#6b7280;font-size:14px;font-weight:500;margin-bottom:40px;padding:0;">
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back
+    </button>
+
+    <!-- Step indicators -->
+    <div style="display:flex;align-items:center;gap:0;margin-bottom:48px;" id="onboard-steps">
+      <div class="ob-step ob-step-active" id="ob-step-1">
+        <div class="ob-step-dot">1</div>
+        <span class="ob-step-label">Your situation</span>
+      </div>
+      <div class="ob-step-line" id="ob-line-1"></div>
+      <div class="ob-step ob-step-inactive" id="ob-step-2">
+        <div class="ob-step-dot ob-dot-inactive">2</div>
+        <span class="ob-step-label" style="color:#9ca3af;">Loan details</span>
+      </div>
+    </div>
+
+    <!-- STEP 1: Do you have BTC? -->
+    <div id="ob-panel-1">
+      <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Do you have Bitcoin?</div>
+      <div style="font-size:15px;color:#6b7280;margin-bottom:32px;">We'll set up the right borrowing path for you based on your answer.</div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <label id="ob-card-yes" onclick="selectCollateral('yes')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:2px solid #e5e7eb;border-radius:16px;padding:22px 20px;cursor:pointer;transition:border-color 0.15s;">
+          <div style="width:22px;height:22px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;" id="ob-radio-yes">
+            <div style="width:10px;height:10px;border-radius:50%;background:transparent;" id="ob-radio-yes-dot"></div>
+          </div>
+          <div>
+            <div style="font-size:16px;font-weight:700;color:#0a1628;margin-bottom:4px;">Yes, I have BTC to use as collateral</div>
+            <div style="font-size:13px;color:#6b7280;line-height:1.5;">Lock your Bitcoin and get a loan in minutes at competitive rates.</div>
+          </div>
+        </label>
+
+        <label id="ob-card-no" onclick="selectCollateral('no')" style="display:flex;align-items:flex-start;gap:16px;background:#fff;border:2px solid #e5e7eb;border-radius:16px;padding:22px 20px;cursor:pointer;transition:border-color 0.15s;">
+          <div style="width:22px;height:22px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;" id="ob-radio-no">
+            <div style="width:10px;height:10px;border-radius:50%;background:transparent;" id="ob-radio-no-dot"></div>
+          </div>
+          <div>
+            <div style="font-size:16px;font-weight:700;color:#0a1628;margin-bottom:4px;">No, I don't have Bitcoin yet</div>
+            <div style="font-size:13px;color:#6b7280;line-height:1.5;">We'll walk you through how to get started with a guided process.</div>
+          </div>
+        </label>
+      </div>
+
+      <button id="ob-next-1" onclick="goToStep2()" disabled style="margin-top:32px;width:100%;padding:16px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;opacity:0.4;transition:opacity 0.15s;">
+        Continue →
+      </button>
+    </div>
+
+    <!-- STEP 2A: Has collateral — loan details -->
+    <div id="ob-panel-2a" style="display:none;">
+      <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Loan details</div>
+      <div style="font-size:15px;color:#6b7280;margin-bottom:32px;">Tell us what you're looking for and we'll get you set up.</div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">How much do you want to borrow?</div>
+          <div style="display:flex;align-items:center;background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:0 16px;transition:border-color 0.15s;" onfocusin="this.style.borderColor='#0245AC'" onfocusout="this.style.borderColor='#e5e7eb'">
+            <span style="font-size:16px;font-weight:600;color:#9ca3af;margin-right:8px;">$</span>
+            <input id="ob-amount" type="number" placeholder="e.g. 10,000" min="1000" max="500000" oninput="updateObCalc()" style="flex:1;border:none;outline:none;font-size:17px;font-weight:600;color:#0a1628;padding:14px 0;background:transparent;" />
+            <span style="font-size:13px;color:#9ca3af;font-weight:500;">USD</span>
+          </div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:6px;padding-left:4px;">Minimum $1,000 · Maximum $500,000</div>
+        </div>
+
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">Loan period</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="ob-term-btn ob-term-selected" onclick="selectTerm(this,'6')" data-term="6">6 months</button>
+            <button class="ob-term-btn" onclick="selectTerm(this,'12')" data-term="12">12 months</button>
+            <button class="ob-term-btn" onclick="selectTerm(this,'24')" data-term="24">24 months</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">How much BTC do you have available?</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="ob-btc-btn ob-btc-selected" onclick="selectBtc(this,'<0.5')">&lt; 0.5 ₿</button>
+            <button class="ob-btc-btn" onclick="selectBtc(this,'0.5-2')">0.5 – 2 ₿</button>
+            <button class="ob-btc-btn" onclick="selectBtc(this,'>2')">&gt; 2 ₿</button>
+          </div>
+        </div>
+
+        <!-- Summary pill -->
+        <div id="ob-summary" style="background:#e8f0fd;border-radius:12px;padding:16px 20px;font-size:13px;color:#1a56db;display:none;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Estimated collateral needed</span><strong id="ob-sum-btc">—</strong></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Interest rate</span><strong id="ob-sum-rate">—</strong></div>
+          <div style="display:flex;justify-content:space-between;"><span>Monthly interest</span><strong id="ob-sum-monthly">—</strong></div>
+        </div>
+      </div>
+
+      <button onclick="enterDashboard('borrower')" style="margin-top:28px;width:100%;padding:16px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='#1344b8'" onmouseleave="this.style.background='#0245AC'">
+        Go to my dashboard →
+      </button>
+    </div>
+
+    <!-- STEP 2B: No collateral -->
+    <div id="ob-panel-2b" style="display:none;">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:52px;margin-bottom:20px;">🛤️</div>
+        <div style="font-size:24px;font-weight:800;color:#0a1628;margin-bottom:12px;">We'll guide you through it</div>
+        <div style="font-size:15px;color:#6b7280;line-height:1.6;margin-bottom:36px;">
+          No Bitcoin yet? No problem. We have a structured path to help you get collateral-ready — starting with identity verification and a short course on Bitcoin-backed lending.
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;text-align:left;margin-bottom:36px;">
+          <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:18px 20px;">
+            <div style="width:36px;height:36px;background:#e8f0fd;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#0245AC;font-size:15px;">1</div>
+            <div><div style="font-weight:600;color:#0a1628;margin-bottom:2px;">Identity verification (KYC)</div><div style="font-size:13px;color:#9ca3af;">Quick verification — takes under 5 minutes</div></div>
+            <span style="margin-left:auto;font-size:11px;font-weight:700;color:#9ca3af;background:#f3f4f6;padding:4px 10px;border-radius:20px;">Coming soon</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:18px 20px;">
+            <div style="width:36px;height:36px;background:#e8f0fd;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#0245AC;font-size:15px;">2</div>
+            <div><div style="font-weight:600;color:#0a1628;margin-bottom:2px;">Bitcoin basics course</div><div style="font-size:13px;color:#9ca3af;">Short course on collateral and how loans work</div></div>
+            <span style="margin-left:auto;font-size:11px;font-weight:700;color:#9ca3af;background:#f3f4f6;padding:4px 10px;border-radius:20px;">Coming soon</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:18px 20px;">
+            <div style="width:36px;height:36px;background:#e8f0fd;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#0245AC;font-size:15px;">3</div>
+            <div><div style="font-weight:600;color:#0a1628;margin-bottom:2px;">Get your first loan</div><div style="font-size:13px;color:#9ca3af;">Once you have BTC, your application is instant</div></div>
+            <span style="margin-left:auto;font-size:11px;font-weight:700;color:#10b981;background:#d1fae5;padding:4px 10px;border-radius:20px;">After steps 1–2</span>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:14px;padding:20px;">
+          <div style="font-size:14px;font-weight:600;color:#0a1628;margin-bottom:12px;">Get notified when it launches</div>
+          <div style="display:flex;gap:10px;">
+            <input id="ob-email" type="email" placeholder="your@email.com" style="flex:1;border:2px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:14px;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0245AC'" onblur="this.style.borderColor='#e5e7eb'" />
+            <button onclick="submitNoCollateral()" style="background:#0245AC;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;">Notify me</button>
+          </div>
+          <div id="ob-email-confirm" style="display:none;font-size:13px;color:#10b981;margin-top:10px;font-weight:500;">✓ You're on the list. We'll reach out when the no-collateral path goes live.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.ob-step { display:flex;align-items:center;gap:8px; }
+.ob-step-dot { width:28px;height:28px;border-radius:50%;background:#0245AC;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center; }
+.ob-dot-inactive { background:#e5e7eb;color:#9ca3af; }
+.ob-step-label { font-size:13px;font-weight:600;color:#0a1628; }
+.ob-step-line { flex:1;height:2px;background:#e5e7eb;margin:0 12px; }
+.ob-term-btn { padding:10px 20px;border:2px solid #e5e7eb;border-radius:100px;background:#fff;font-size:14px;font-weight:600;color:#374151;cursor:pointer;transition:all 0.15s; }
+.ob-term-selected { border-color:#0245AC;background:#0245AC;color:#fff; }
+.ob-btc-btn { padding:10px 20px;border:2px solid #e5e7eb;border-radius:100px;background:#fff;font-size:14px;font-weight:600;color:#374151;cursor:pointer;transition:all 0.15s; }
+.ob-btc-selected { border-color:#0245AC;background:#0245AC;color:#fff; }
+</style>
+
+<script>
+  let obCollateral = null;
+  let obTerm = '6';
+
+  function openBorrowOnboard() {
+    document.getElementById('borrow-onboard').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBorrowOnboard() {
+    document.getElementById('borrow-onboard').style.display = 'none';
+    document.body.style.overflow = '';
+    obCollateral = null;
+    document.getElementById('ob-next-1').disabled = true;
+    document.getElementById('ob-next-1').style.opacity = '0.4';
+    resetRadio('yes'); resetRadio('no');
+    document.getElementById('ob-panel-1').style.display = 'block';
+    document.getElementById('ob-panel-2a').style.display = 'none';
+    document.getElementById('ob-panel-2b').style.display = 'none';
+    document.getElementById('ob-step-2').querySelector('.ob-step-dot').classList.add('ob-dot-inactive');
+    document.getElementById('ob-step-2').querySelector('.ob-step-label').style.color = '#9ca3af';
+  }
+
+  function resetRadio(id) {
+    document.getElementById('ob-radio-' + id).style.borderColor = '#d1d5db';
+    document.getElementById('ob-radio-' + id + '-dot').style.background = 'transparent';
+    document.getElementById('ob-card-' + id).style.borderColor = '#e5e7eb';
+  }
+
+  function selectCollateral(val) {
+    obCollateral = val;
+    ['yes','no'].forEach(v => resetRadio(v));
+    document.getElementById('ob-radio-' + val).style.borderColor = '#0245AC';
+    document.getElementById('ob-radio-' + val + '-dot').style.background = '#0245AC';
+    document.getElementById('ob-card-' + val).style.borderColor = '#0245AC';
+    document.getElementById('ob-next-1').disabled = false;
+    document.getElementById('ob-next-1').style.opacity = '1';
+  }
+
+  function goToStep2() {
+    if (!obCollateral) return;
+    document.getElementById('ob-panel-1').style.display = 'none';
+    const dot2 = document.getElementById('ob-step-2').querySelector('.ob-step-dot');
+    dot2.classList.remove('ob-dot-inactive');
+    document.getElementById('ob-step-2').querySelector('.ob-step-label').style.color = '#0a1628';
+    if (obCollateral === 'yes') {
+      document.getElementById('ob-panel-2a').style.display = 'block';
+    } else {
+      document.getElementById('ob-panel-2b').style.display = 'block';
+    }
+    document.getElementById('borrow-onboard').scrollTop = 0;
+  }
+
+  function selectTerm(btn, term) {
+    obTerm = term;
+    document.querySelectorAll('.ob-term-btn').forEach(b => b.classList.remove('ob-term-selected'));
+    btn.classList.add('ob-term-selected');
+    updateObCalc();
+  }
+
+  function selectBtc(btn) {
+    document.querySelectorAll('.ob-btc-btn').forEach(b => b.classList.remove('ob-btc-selected'));
+    btn.classList.add('ob-btc-selected');
+  }
+
+  function updateObCalc() {
+    const amount = parseFloat(document.getElementById('ob-amount').value) || 0;
+    if (amount < 1) { document.getElementById('ob-summary').style.display = 'none'; return; }
+    const BTC = 60133.10;
+    const RATES = {'6':0.085,'12':0.08,'24':0.075};
+    const rate = RATES[obTerm] || 0.085;
+    const btc = (amount / (BTC * 0.5)).toFixed(4);
+    const monthly = (amount * rate / 12).toFixed(2);
+    document.getElementById('ob-sum-btc').textContent = btc + ' ₿';
+    document.getElementById('ob-sum-rate').textContent = (rate * 100).toFixed(1) + '% / yr';
+    document.getElementById('ob-sum-monthly').textContent = '$' + parseFloat(monthly).toLocaleString();
+    document.getElementById('ob-summary').style.display = 'block';
+  }
+
+  function submitNoCollateral() {
+    const email = document.getElementById('ob-email').value;
+    if (!email || !email.includes('@')) { document.getElementById('ob-email').style.borderColor = '#ef4444'; return; }
+    document.getElementById('ob-email-confirm').style.display = 'block';
+    document.getElementById('ob-email').disabled = true;
+  }
+</script>
 </body>
 </html>
