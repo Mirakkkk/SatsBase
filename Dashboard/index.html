@@ -319,8 +319,8 @@
         <div class="ticker-dot"></div>
         &#8383; $60,133.10 <span style="color:var(--red);font-size:12px;">-1.2%</span>
       </div>
-      <button class="btn btn-outline">Repay Loan</button>
-      <button class="btn btn-primary">+ Borrow More</button>
+      <button class="btn btn-outline" onclick="openModal('repay')">Repay Loan</button>
+      <button class="btn btn-primary" onclick="openModal('borrow')">+ Borrow More</button>
     </div>
   </header>
 
@@ -386,8 +386,8 @@
         <div class="card">
           <div class="card-header"><div class="card-title">Quick Actions</div></div>
           <div class="actions-grid">
-            <button class="action-btn"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg></div>Borrow More</button>
-            <button class="action-btn"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg></div>Repay Loan</button>
+            <button class="action-btn" onclick="openModal('borrow')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg></div>Borrow More</button>
+            <button class="action-btn" onclick="openModal('repay')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg></div>Repay Loan</button>
             <button class="action-btn"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>Add Collateral</button>
             <button class="action-btn"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>Rollover Loan</button>
           </div>
@@ -449,7 +449,7 @@
         <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:52%;background:var(--green);"></div></div>
       </div>
       <div class="loan-actions">
-        <button class="btn btn-outline btn-sm">Repay Loan</button>
+        <button class="btn btn-outline btn-sm" onclick="openModal('repay')">Repay Loan</button>
         <button class="btn btn-outline btn-sm">Add Collateral</button>
         <button class="btn btn-outline btn-sm">Rollover</button>
         <button class="btn btn-primary btn-sm" style="margin-left:auto;">View Details</button>
@@ -476,7 +476,7 @@
         <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:56%;background:var(--orange);"></div></div>
       </div>
       <div class="loan-actions">
-        <button class="btn btn-outline btn-sm">Repay Loan</button>
+        <button class="btn btn-outline btn-sm" onclick="openModal('repay')">Repay Loan</button>
         <button class="btn btn-outline btn-sm">Add Collateral</button>
         <button class="btn btn-outline btn-sm">Rollover</button>
         <button class="btn btn-primary btn-sm" style="margin-left:auto;">View Details</button>
@@ -778,5 +778,244 @@
     if (el) el.classList.add('active');
   }
 </script>
+<!-- ===== MODALS ===== -->
+<style>
+  .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; padding:16px; }
+  .modal-backdrop.open { display:flex; }
+  .modal { background:white; border-radius:16px; width:100%; max-width:460px; box-shadow:0 20px 60px rgba(0,0,0,0.2); animation:slideUp 0.2s ease; }
+  @keyframes slideUp { from { transform:translateY(24px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  .modal-header { display:flex; align-items:center; justify-content:space-between; padding:20px 24px 0; }
+  .modal-title { font-size:18px; font-weight:700; }
+  .modal-close { background:none; border:none; cursor:pointer; color:var(--gray-400); padding:4px; border-radius:6px; }
+  .modal-close:hover { background:var(--gray-100); color:var(--gray-800); }
+  .modal-body { padding:20px 24px 24px; display:flex; flex-direction:column; gap:16px; }
+  .form-group { display:flex; flex-direction:column; gap:6px; }
+  .form-label { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--gray-400); }
+  .form-input { padding:11px 14px; border:1.5px solid var(--gray-200); border-radius:10px; font-size:15px; font-family:inherit; outline:none; transition:border-color 0.15s; }
+  .form-input:focus { border-color:var(--blue); }
+  .form-select { padding:11px 14px; border:1.5px solid var(--gray-200); border-radius:10px; font-size:15px; font-family:inherit; outline:none; background:white; cursor:pointer; }
+  .form-select:focus { border-color:var(--blue); }
+  .form-hint { font-size:12px; color:var(--gray-400); }
+  .modal-divider { height:1px; background:var(--gray-100); }
+  .calc-row { display:flex; justify-content:space-between; font-size:14px; }
+  .calc-key { color:var(--gray-600); }
+  .calc-val { font-weight:700; }
+  .modal-actions { display:flex; gap:10px; padding:0 24px 24px; }
+  .modal-actions .btn { flex:1; justify-content:center; padding:12px; font-size:15px; }
+  .success-box { display:none; flex-direction:column; align-items:center; gap:12px; padding:32px 24px; text-align:center; }
+  .success-icon { width:56px; height:56px; border-radius:50%; background:var(--green-light); display:flex; align-items:center; justify-content:center; }
+  .success-title { font-size:18px; font-weight:700; }
+  .success-sub { font-size:14px; color:var(--gray-400); }
+</style>
+
+<!-- REPAY MODAL -->
+<div class="modal-backdrop" id="modal-repay" onclick="handleBackdropClick(event,'modal-repay')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Repay Loan</div>
+      <button class="modal-close" onclick="closeModal('repay')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="repay-form">
+      <div class="form-group">
+        <div class="form-label">Select Loan</div>
+        <select class="form-select" id="repay-loan" onchange="updateRepayCalc()">
+          <option value="2041">&#35;PBL-2041 — $32,000 outstanding</option>
+          <option value="2067">&#35;PBL-2067 — $15,500 outstanding</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-label">Repayment Type</div>
+        <select class="form-select" id="repay-type" onchange="updateRepayCalc()">
+          <option value="interest">Interest only</option>
+          <option value="partial">Partial principal</option>
+          <option value="full">Full repayment</option>
+        </select>
+      </div>
+      <div class="form-group" id="repay-amount-group">
+        <div class="form-label">Amount (USD)</div>
+        <input class="form-input" type="number" id="repay-amount" placeholder="0.00" oninput="updateRepayCalc()" />
+        <div class="form-hint" id="repay-hint">Enter the amount you wish to repay</div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="calc-row"><span class="calc-key">You pay</span><span class="calc-val" id="repay-total">—</span></div>
+      <div class="calc-row"><span class="calc-key">Remaining balance</span><span class="calc-val" id="repay-remaining">—</span></div>
+      <div class="calc-row"><span class="calc-key">Collateral released</span><span class="calc-val" id="repay-collateral">—</span></div>
+    </div>
+    <div class="success-box" id="repay-success">
+      <div class="success-icon"><svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+      <div class="success-title">Repayment Confirmed!</div>
+      <div class="success-sub" id="repay-success-msg">Your payment has been processed successfully.</div>
+    </div>
+    <div class="modal-actions" id="repay-actions">
+      <button class="btn btn-outline" onclick="closeModal('repay')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitRepay()">Confirm Repayment</button>
+    </div>
+  </div>
+</div>
+
+<!-- BORROW MODAL -->
+<div class="modal-backdrop" id="modal-borrow" onclick="handleBackdropClick(event,'modal-borrow')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Borrow More</div>
+      <button class="modal-close" onclick="closeModal('borrow')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="borrow-form">
+      <div class="form-group">
+        <div class="form-label">Loan Amount (USD)</div>
+        <input class="form-input" type="number" id="borrow-amount" placeholder="e.g. 10000" oninput="updateBorrowCalc()" />
+        <div class="form-hint">Minimum $1,000 · Maximum $500,000</div>
+      </div>
+      <div class="form-group">
+        <div class="form-label">Loan Term</div>
+        <select class="form-select" id="borrow-term" onchange="updateBorrowCalc()">
+          <option value="3">3 months</option>
+          <option value="6" selected>6 months</option>
+          <option value="12">12 months</option>
+          <option value="24">24 months</option>
+        </select>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="calc-row"><span class="calc-key">Interest rate</span><span class="calc-val" id="borrow-rate">8.5% / yr</span></div>
+      <div class="calc-row"><span class="calc-key">BTC collateral needed</span><span class="calc-val" id="borrow-btc">—</span></div>
+      <div class="calc-row"><span class="calc-key">Monthly interest</span><span class="calc-val" id="borrow-monthly">—</span></div>
+      <div class="calc-row"><span class="calc-key">Total interest cost</span><span class="calc-val" id="borrow-interest">—</span></div>
+      <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue-dark);">
+        &#8383; BTC price used: <strong>$60,133.10</strong> &nbsp;·&nbsp; Collateral at 50% LTV
+      </div>
+    </div>
+    <div class="success-box" id="borrow-success">
+      <div class="success-icon"><svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+      <div class="success-title">Application Submitted!</div>
+      <div class="success-sub" id="borrow-success-msg">Your loan application is under review. Funds typically arrive within 24 hours.</div>
+    </div>
+    <div class="modal-actions" id="borrow-actions">
+      <button class="btn btn-outline" onclick="closeModal('borrow')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitBorrow()">Apply for Loan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const BTC_PRICE = 60133.10;
+  const LOANS = { '2041': 32000, '2067': 15500 };
+  const RATES = { '3': 0.09, '6': 0.085, '12': 0.08, '24': 0.075 };
+
+  function openModal(type) {
+    document.getElementById('modal-' + type).classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (type === 'repay') updateRepayCalc();
+    if (type === 'borrow') updateBorrowCalc();
+  }
+
+  function closeModal(type) {
+    document.getElementById('modal-' + type).classList.remove('open');
+    document.body.style.overflow = '';
+    // reset success state
+    const form = document.getElementById(type + '-form');
+    const success = document.getElementById(type + '-success');
+    const actions = document.getElementById(type + '-actions');
+    if (form) form.style.display = '';
+    if (success) success.style.display = 'none';
+    if (actions) actions.style.display = '';
+  }
+
+  function handleBackdropClick(e, id) {
+    if (e.target === document.getElementById(id)) closeModal(id.replace('modal-', ''));
+  }
+
+  function fmt(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function fmtBtc(n) { return n.toFixed(4) + ' ₿'; }
+
+  function updateRepayCalc() {
+    const loan = document.getElementById('repay-loan').value;
+    const type = document.getElementById('repay-type').value;
+    const outstanding = LOANS[loan];
+    const amountGroup = document.getElementById('repay-amount-group');
+    const amountEl = document.getElementById('repay-amount');
+    const rate = 0.085;
+
+    let pay = 0, remaining = outstanding, collateralReleased = 0;
+
+    if (type === 'interest') {
+      amountGroup.style.display = 'none';
+      pay = outstanding * rate / 12;
+      remaining = outstanding;
+      collateralReleased = 0;
+    } else if (type === 'full') {
+      amountGroup.style.display = 'none';
+      pay = outstanding;
+      remaining = 0;
+      collateralReleased = outstanding / (BTC_PRICE * 0.5);
+    } else {
+      amountGroup.style.display = '';
+      const entered = parseFloat(amountEl.value) || 0;
+      pay = Math.min(entered, outstanding);
+      remaining = outstanding - pay;
+      collateralReleased = pay / (BTC_PRICE * 0.5);
+    }
+
+    document.getElementById('repay-total').textContent = fmt(pay);
+    document.getElementById('repay-remaining').textContent = remaining > 0 ? fmt(remaining) : 'Paid off ✓';
+    document.getElementById('repay-collateral').textContent = collateralReleased > 0 ? fmtBtc(collateralReleased) : '—';
+  }
+
+  function submitRepay() {
+    const loan = document.getElementById('repay-loan').value;
+    const type = document.getElementById('repay-type').value;
+    const labels = { interest: 'Interest payment', partial: 'Partial repayment', full: 'Full repayment' };
+    document.getElementById('repay-success-msg').textContent =
+      labels[type] + ' for loan #PBL-' + loan + ' has been processed successfully.';
+    document.getElementById('repay-form').style.display = 'none';
+    document.getElementById('repay-success').style.display = 'flex';
+    document.getElementById('repay-actions').style.display = 'none';
+    setTimeout(() => closeModal('repay'), 2800);
+  }
+
+  function updateBorrowCalc() {
+    const amount = parseFloat(document.getElementById('borrow-amount').value) || 0;
+    const months = parseInt(document.getElementById('borrow-term').value);
+    const rate = RATES[months];
+
+    if (amount < 1) {
+      document.getElementById('borrow-btc').textContent = '—';
+      document.getElementById('borrow-monthly').textContent = '—';
+      document.getElementById('borrow-interest').textContent = '—';
+      document.getElementById('borrow-rate').textContent = (rate * 100).toFixed(1) + '% / yr';
+      return;
+    }
+
+    const btcNeeded = amount / (BTC_PRICE * 0.5);
+    const monthlyInterest = amount * rate / 12;
+    const totalInterest = monthlyInterest * months;
+
+    document.getElementById('borrow-rate').textContent = (rate * 100).toFixed(1) + '% / yr';
+    document.getElementById('borrow-btc').textContent = fmtBtc(btcNeeded);
+    document.getElementById('borrow-monthly').textContent = fmt(monthlyInterest);
+    document.getElementById('borrow-interest').textContent = fmt(totalInterest);
+  }
+
+  function submitBorrow() {
+    const amount = parseFloat(document.getElementById('borrow-amount').value) || 0;
+    if (amount < 1000) {
+      document.getElementById('borrow-amount').style.borderColor = 'var(--red)';
+      document.getElementById('borrow-amount').placeholder = 'Minimum $1,000';
+      return;
+    }
+    document.getElementById('borrow-success-msg').textContent =
+      'Your application for ' + fmt(amount) + ' is under review. Funds typically arrive within 24 hours.';
+    document.getElementById('borrow-form').style.display = 'none';
+    document.getElementById('borrow-success').style.display = 'flex';
+    document.getElementById('borrow-actions').style.display = 'none';
+    setTimeout(() => closeModal('borrow'), 2800);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      ['repay','borrow'].forEach(t => closeModal(t));
+    }
+  });
+</script>
+
 </body>
 </html>
