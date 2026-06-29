@@ -590,7 +590,7 @@
           <div style="font-size:13px;color:var(--gray-400);margin-top:2px;">Put your assets to work. Invest in loans backed by bitcoin.</div>
         </div>
       </div>
-      <button onclick="openModal('invest')" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">
+      <button onclick="openModal('watchlist')" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
         Add to Watchlist
       </button>
@@ -654,8 +654,8 @@
             </tr>
           </thead>
           <tbody id="inv-marketplace-body">
-            <tr data-amount="30000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
-            <tr data-amount="20000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr data-amount="30000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
+            <tr data-amount="20000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
             <tr data-amount="15000" data-period="24" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 15,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
             <tr data-amount="8000" data-period="24" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDC 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
             <tr data-amount="12000" data-period="12" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 12,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
@@ -891,6 +891,47 @@
     settings: 'Settings'
   };
 
+
+
+  function toggleWlPeriod(btn, val) {
+    const selected = btn.dataset.selected === 'true';
+    if (selected) {
+      btn.dataset.selected = '';
+      btn.style.borderColor = 'var(--gray-200)';
+      btn.style.color = 'var(--gray-800)';
+      btn.style.fontWeight = '400';
+    } else {
+      btn.dataset.selected = 'true';
+      btn.style.borderColor = 'var(--blue)';
+      btn.style.color = 'var(--blue)';
+      btn.style.fontWeight = '600';
+    }
+    updateWatchlistSummary();
+  }
+
+  function updateWatchlistSummary() {
+    const min = document.getElementById('wl-min')?.value;
+    const max = document.getElementById('wl-max')?.value;
+    const currency = document.getElementById('wl-currency')?.value || 'USD';
+    const yield_ = document.getElementById('wl-yield')?.value || '8';
+    const periods = Array.from(document.querySelectorAll('#wl-periods button[data-selected="true"]'))
+      .map(b => b.textContent.trim()).join(', ') || '—';
+
+    const fmt = v => v ? Number(v).toLocaleString() : '—';
+    document.getElementById('wl-s-currency').textContent = currency;
+    document.getElementById('wl-s-min').textContent = min ? currency + ' ' + fmt(min) : '—';
+    document.getElementById('wl-s-max').textContent = max ? currency + ' ' + fmt(max) : '—';
+    document.getElementById('wl-s-periods').textContent = periods;
+    document.getElementById('wl-s-yield').textContent = parseFloat(yield_).toFixed(2) + '%';
+  }
+
+  function submitWatchlist() {
+    closeModal('watchlist');
+    // Reset for next open
+    setTimeout(() => {
+      ['wl-min','wl-max'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    }, 400);
+  }
 
   function applyMarketplaceFilters() {
     const periods = Array.from(document.querySelectorAll('#inv-content-marketplace input[type=checkbox]'))
@@ -1226,6 +1267,72 @@
 </script>
 
 <!-- NEW INVESTMENT MODAL -->
+<!-- WATCHLIST MODAL -->
+<div class="modal-backdrop" id="modal-watchlist" onclick="handleBackdropClick(event,'modal-watchlist')">
+  <div class="modal" style="max-width:860px;width:95%;">
+    <div class="modal-header">
+      <div class="modal-title">Create a new Watchlist Alert</div>
+      <button class="modal-close" onclick="closeModal('watchlist')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" style="display:grid;grid-template-columns:1fr 280px;gap:32px;padding:28px 24px;">
+
+      <!-- LEFT: Form -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:end;">
+          <div>
+            <div class="form-label">Minimum investment amount</div>
+            <input class="form-input" type="number" id="wl-min" placeholder="Enter amount" oninput="updateWatchlistSummary()">
+          </div>
+          <div>
+            <div class="form-label">Currency</div>
+            <select class="form-select" id="wl-currency" onchange="updateWatchlistSummary()">
+              <option>USD</option><option>USDC</option><option>USDT</option><option>BTC</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-label">Maximum investment amount</div>
+          <input class="form-input" type="number" id="wl-max" placeholder="Enter amount" oninput="updateWatchlistSummary()">
+        </div>
+
+        <div>
+          <div class="form-label" style="margin-bottom:12px;">Preferred loan period(s)</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;" id="wl-periods">
+            <button type="button" onclick="toggleWlPeriod(this,'3')" style="padding:8px 16px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;font-size:14px;cursor:pointer;color:var(--gray-800);">3 months</button>
+            <button type="button" onclick="toggleWlPeriod(this,'6')" style="padding:8px 16px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;font-size:14px;cursor:pointer;color:var(--gray-800);">6 months</button>
+            <button type="button" onclick="toggleWlPeriod(this,'12')" data-selected="true" style="padding:8px 16px;border-radius:8px;border:1.5px solid var(--blue);background:#fff;font-size:14px;cursor:pointer;color:var(--blue);font-weight:600;">12 months</button>
+            <button type="button" onclick="toggleWlPeriod(this,'18')" style="padding:8px 16px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;font-size:14px;cursor:pointer;color:var(--gray-800);">18 months</button>
+            <button type="button" onclick="toggleWlPeriod(this,'24')" style="padding:8px 16px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;font-size:14px;cursor:pointer;color:var(--gray-800);">24 months</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div class="form-label" style="margin:0;">Minimum expected yield (p.a. %)</div>
+            <div style="border:1.5px solid var(--gray-200);border-radius:8px;padding:6px 14px;font-size:14px;font-weight:600;min-width:60px;text-align:center;" id="wl-yield-display">8%</div>
+          </div>
+          <input type="range" id="wl-yield" min="2" max="16" value="8" step="0.5"
+            style="width:100%;accent-color:var(--blue);cursor:pointer;"
+            oninput="document.getElementById('wl-yield-display').textContent=this.value+'%';updateWatchlistSummary()">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400);margin-top:4px;"><span>2%</span><span>16%</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Summary card -->
+      <div style="background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:14px;padding:24px;display:flex;flex-direction:column;">
+        <div style="font-size:16px;font-weight:700;color:var(--gray-800);margin-bottom:20px;">Watchlist alert summary</div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--gray-200);font-size:14px;"><span style="color:var(--gray-600);">Currency</span><span style="font-weight:600;" id="wl-s-currency">USD</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--gray-200);font-size:14px;"><span style="color:var(--gray-600);">Min. investment amount</span><span style="font-weight:600;" id="wl-s-min">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--gray-200);font-size:14px;"><span style="color:var(--gray-600);">Max. investment amount</span><span style="font-weight:600;" id="wl-s-max">—</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--gray-200);font-size:14px;"><span style="color:var(--gray-600);">Preferred loan period(s)</span><span style="font-weight:600;text-align:right;" id="wl-s-periods">12 months</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;font-size:14px;"><span style="color:var(--gray-600);">Min. expected yield</span><span style="font-weight:600;" id="wl-s-yield">8.00%</span></div>
+        <button onclick="submitWatchlist()" style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:100px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;width:100%;">Create Watchlist Alert</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="modal-invest" onclick="handleBackdropClick(event,'modal-invest')">
   <div class="modal">
     <div class="modal-header">
