@@ -429,6 +429,30 @@
       <button class="btn btn-primary" onclick="openModal('borrow')">+ New Loan</button>
     </div>
 
+    <!-- BORROWING POWER BANNER -->
+    <div style="background:var(--blue-light);border:1.5px solid #bfdbfe;border-radius:14px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">&#9889; Your borrowing power</div>
+        <div style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:4px;">Borrow more</div>
+        <div style="font-size:28px;font-weight:800;color:var(--blue);margin-bottom:12px;">$10,300 <span style="font-size:14px;font-weight:500;color:var(--gray-600);">available to borrow right now</span></div>
+        <div style="margin-bottom:8px;">
+          <div style="height:7px;background:#bfdbfe;border-radius:4px;overflow:hidden;margin-bottom:6px;">
+            <div style="width:82%;height:100%;background:var(--blue);border-radius:4px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400);">
+            <span>$47,500 borrowed</span><span>$57,800 credit limit</span>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--gray-600);margin-top:8px;">Backed by 0.82 &#8383; collateral. Add 0.1 &#8383; more for about <strong style="color:var(--gray-800);">$7,000</strong> extra borrowing power &mdash; lock in today's rate from 8.5% / yr.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:160px;">
+        <button class="btn btn-primary" onclick="openModal('borrow')" style="justify-content:center;">+ New loan</button>
+        <div style="text-align:center;font-size:13px;font-weight:600;color:var(--blue);padding:9px 18px;border:1.5px solid var(--blue);border-radius:8px;cursor:pointer;" onclick="openModal('borrow')">Rates from 8.5% / yr</div>
+      </div>
+    </div>
+
+    <div style="font-size:16px;font-weight:700;margin-bottom:16px;color:var(--gray-800);">My loans <span style="font-size:13px;font-weight:400;color:var(--gray-400);">· 2 active loans · $47,500 total borrowed</span></div>
+
     <div class="loan-card">
       <div class="loan-card-header">
         <div><div class="loan-id">#PBL-2041</div><div class="loan-meta">Opened Apr 12, 2026 &middot; Matures Aug 15, 2026</div></div>
