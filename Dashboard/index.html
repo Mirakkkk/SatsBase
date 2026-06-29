@@ -578,64 +578,115 @@
 
   <!-- ===== INVESTMENTS VIEW ===== -->
   <div class="view" id="view-investments">
-    <div class="page-header">
-      <div><div class="page-heading">Investments</div><div class="page-subheading">Earn yield by funding Bitcoin-backed loans</div></div>
-      <button class="btn btn-primary" onclick="openModal('invest')">+ New Investment</button>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;background:var(--blue-light);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+          <svg width="22" height="22" fill="none" stroke="var(--blue)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        </div>
+        <div>
+          <div style="font-size:18px;font-weight:700;color:var(--gray-800);">Invest</div>
+          <div style="font-size:13px;color:var(--gray-400);margin-top:2px;">Put your assets to work. Invest in loans backed by bitcoin.</div>
+        </div>
+      </div>
+      <button onclick="openModal('invest')" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        Create watchdog
+      </button>
     </div>
 
-    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
-      <div class="stat-card">
-        <div class="stat-label">Total Invested</div>
-        <div class="stat-value">$24,000</div>
-        <div class="stat-change neutral">Across 3 positions</div>
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:24px;">
+      <button id="inv-tab-marketplace" onclick="switchInvTab('marketplace')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;color:var(--blue);border-bottom:2px solid var(--blue);margin-bottom:-2px;">Marketplace</button>
+      <button id="inv-tab-watchdogs" onclick="switchInvTab('watchdogs')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;">My watchdogs</button>
+      <button id="inv-tab-autoinvest" onclick="switchInvTab('autoinvest')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:6px;">
+        Auto Invest <span style="background:var(--blue-light);color:var(--blue);font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid var(--blue);">BETA</span>
+      </button>
+    </div>
+
+    <!-- Marketplace Tab Content -->
+    <div id="inv-content-marketplace" style="display:flex;gap:24px;">
+
+      <!-- Filters sidebar -->
+      <div style="width:200px;flex-shrink:0;">
+        <div style="font-size:15px;font-weight:700;color:var(--gray-800);margin-bottom:16px;">Filters</div>
+
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Period</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 3 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 6 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 12 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 18 months</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px;"> 24 months</label>
+        </div>
+
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Currency</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" checked style="accent-color:var(--blue);width:16px;height:16px;"> USD</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;"> USDC</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;"> USDT</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-currency" style="accent-color:var(--blue);width:16px;height:16px;"> BTC</label>
+        </div>
+
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Loan amount (from – to)</div>
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <input type="number" value="800" style="width:80px;border:1px solid var(--gray-200);border-radius:6px;padding:6px 8px;font-size:13px;color:var(--gray-800);">
+          <input type="number" value="100000" style="width:80px;border:1px solid var(--gray-200);border-radius:6px;padding:6px 8px;font-size:13px;color:var(--gray-800);">
+        </div>
+        <input type="range" min="800" max="100000" value="100000" style="width:100%;accent-color:var(--blue);margin-bottom:4px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray-400);margin-bottom:20px;"><span>800</span><span>100,000</span></div>
+
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:10px;">Investments</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-status" checked style="accent-color:var(--blue);width:16px;height:16px;"> Available</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;"><input type="radio" name="inv-status" style="accent-color:var(--blue);width:16px;height:16px;"> Matched</label>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Total Earned</div>
-        <div class="stat-value" style="color:var(--green);">$1,840</div>
-        <div class="stat-change up">+7.67% annualized</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Active Positions</div>
-        <div class="stat-value">3</div>
-        <div class="stat-change neutral">All performing</div>
+
+      <!-- Loan marketplace table -->
+      <div style="flex:1;min-width:0;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--gray-200);">
+              <th style="text-align:left;padding:10px 16px;font-size:13px;font-weight:600;color:var(--gray-400);">Loan amount <span style="font-size:10px;">⇅</span></th>
+              <th style="text-align:left;padding:10px 16px;font-size:13px;font-weight:600;color:var(--gray-400);">Period <span style="font-size:10px;">⇅</span></th>
+              <th style="text-align:left;padding:10px 16px;font-size:13px;font-weight:600;color:var(--gray-400);">Interest rate <span style="font-size:10px;">⇅</span></th>
+              <th style="text-align:left;padding:10px 16px;font-size:13px;font-weight:600;color:var(--gray-400);">Action</th>
+            </tr>
+          </thead>
+          <tbody id="inv-marketplace-body">
+            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 15,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 12,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 10,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.7%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 35,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 25,000</td><td style="padding:14px 16px;font-size:14px;">18 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 23,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('invest');return false;">Investment details</a></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <div class="invest-card">
-      <div class="invest-row">
-        <div><div class="invest-title">Loan #PBL-1982 — Conservative</div><div class="invest-sub">Low LTV &middot; 50% LTV &middot; Opened Mar 1, 2026</div></div>
-        <span class="badge badge-green">Active</span>
-      </div>
-      <div class="invest-stats">
-        <div><div class="loan-stat-label">My Contribution</div><div class="loan-stat-value">$10,000</div></div>
-        <div><div class="loan-stat-label">Interest Rate</div><div class="loan-stat-value">8.0% / yr</div></div>
-        <div><div class="loan-stat-label">Earned to Date</div><div class="loan-stat-value" style="color:var(--green);">+$933</div></div>
-      </div>
+    <!-- My Watchdogs Tab -->
+    <div id="inv-content-watchdogs" style="display:none;padding:40px 0;text-align:center;color:var(--gray-400);">
+      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;opacity:0.4;"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div style="font-size:15px;font-weight:600;margin-bottom:8px;">No watchdogs yet</div>
+      <div style="font-size:13px;">Create a watchdog to get notified when matching loans appear.</div>
+      <button onclick="openModal('invest')" style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Create watchdog</button>
     </div>
 
-    <div class="invest-card">
-      <div class="invest-row">
-        <div><div class="invest-title">Loan #PBL-2011 — Balanced</div><div class="invest-sub">Medium LTV &middot; 62% LTV &middot; Opened Apr 5, 2026</div></div>
-        <span class="badge badge-green">Active</span>
-      </div>
-      <div class="invest-stats">
-        <div><div class="loan-stat-label">My Contribution</div><div class="loan-stat-value">$8,000</div></div>
-        <div><div class="loan-stat-label">Interest Rate</div><div class="loan-stat-value">9.5% / yr</div></div>
-        <div><div class="loan-stat-label">Earned to Date</div><div class="loan-stat-value" style="color:var(--green);">+$614</div></div>
-      </div>
+    <!-- Auto Invest Tab -->
+    <div id="inv-content-autoinvest" style="display:none;padding:40px 0;text-align:center;color:var(--gray-400);">
+      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;opacity:0.4;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      <div style="font-size:15px;font-weight:600;margin-bottom:8px;">Auto Invest — Beta</div>
+      <div style="font-size:13px;">Set your criteria once. We'll invest automatically when matching loans appear.</div>
+      <button style="margin-top:20px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;">Set up Auto Invest</button>
     </div>
 
-    <div class="invest-card">
-      <div class="invest-row">
-        <div><div class="invest-title">Loan #PBL-2055 — Growth</div><div class="invest-sub">Higher yield &middot; 68% LTV &middot; Opened May 20, 2026</div></div>
-        <span class="badge badge-green">Active</span>
-      </div>
-      <div class="invest-stats">
-        <div><div class="loan-stat-label">My Contribution</div><div class="loan-stat-value">$6,000</div></div>
-        <div><div class="loan-stat-label">Interest Rate</div><div class="loan-stat-value">11.0% / yr</div></div>
-        <div><div class="loan-stat-label">Earned to Date</div><div class="loan-stat-value" style="color:var(--green);">+$293</div></div>
-      </div>
-    </div>
   </div>
 
   <!-- ===== COLLATERAL VIEW ===== -->
@@ -834,6 +885,18 @@
     alerts: 'Alerts',
     settings: 'Settings'
   };
+
+  function switchInvTab(tab) {
+    ['marketplace','watchdogs','autoinvest'].forEach(t => {
+      const btn = document.getElementById('inv-tab-' + t);
+      const content = document.getElementById('inv-content-' + t);
+      const active = t === tab;
+      btn.style.color = active ? 'var(--blue)' : 'var(--gray-400)';
+      btn.style.fontWeight = active ? '600' : '500';
+      btn.style.borderBottom = active ? '2px solid var(--blue)' : '2px solid transparent';
+      content.style.display = active ? (t === 'marketplace' ? 'flex' : 'block') : 'none';
+    });
+  }
 
   function enterDashboard(role) {
     const selector = document.getElementById('role-selector');
