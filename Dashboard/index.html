@@ -457,14 +457,36 @@
       </div>
 
       <div style="display:flex;flex-direction:column;gap:20px;">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Quick Actions</div></div>
-          <div class="actions-grid">
-            <button class="action-btn" onclick="openModal('borrow')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>Borrow More</button>
-            <button class="action-btn" onclick="openModal('repay')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg></div>Repay Loan</button>
-            <button class="action-btn" onclick="openModal('collateral')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>Add Collateral</button>
-            <button class="action-btn" onclick="openModal('rollover')"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>Rollover Loan</button>
-            <button class="action-btn" onclick="document.getElementById('view-shield-section').scrollIntoView({behavior:'smooth'})"><div class="action-icon"><svg width="20" height="20" fill="none" stroke="#1a56db" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>Liquidation Shield</button>
+        <div class="card" style="padding:24px;">
+          <div style="font-size:20px;font-weight:800;color:var(--gray-800);margin-bottom:4px;">You're almost there</div>
+          <div style="font-size:13px;color:var(--gray-600);margin-bottom:20px;">One step from your <strong>next rate tier</strong></div>
+
+          <!-- Progress block -->
+          <div style="background:var(--blue-light);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                On-time payments
+              </div>
+              <div style="font-size:15px;font-weight:800;color:var(--blue);">11 <span style="font-weight:400;color:var(--gray-400);">/ 12</span></div>
+            </div>
+            <div style="height:8px;background:#bfdbfe;border-radius:100px;overflow:hidden;margin-bottom:10px;">
+              <div style="width:91.6%;height:100%;background:var(--blue);border-radius:100px;"></div>
+            </div>
+            <div style="font-size:13px;color:var(--blue);line-height:1.5;"><strong>1 payment to go.</strong> Make your next on-time payment to unlock a lower rate on your next loan.</div>
+          </div>
+
+          <!-- Action row -->
+          <div onclick="openModal('repay')" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--gray-50);border-radius:12px;cursor:pointer;border:1.5px solid var(--gray-200);transition:border-color 0.15s;" onmouseenter="this.style.borderColor='var(--blue)'" onmouseleave="this.style.borderColor='var(--gray-200)'">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;font-weight:700;color:var(--blue);">2</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">Finishes it</div>
+              <div style="font-size:13px;color:var(--gray-600);line-height:1.4;">Make your 12th on-time payment on PBL-2067</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+              <span style="background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;">Unlocks rate</span>
+              <svg width="16" height="16" fill="none" stroke="var(--gray-400)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -653,6 +675,7 @@
     <div style="display:flex;gap:0;border-bottom:2px solid var(--gray-200);margin-bottom:24px;">
       <button id="inv-tab-marketplace" onclick="switchInvTab('marketplace')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;color:var(--blue);border-bottom:2px solid var(--blue);margin-bottom:-2px;">Marketplace</button>
       <button id="inv-tab-watchlist" onclick="switchInvTab('watchlist')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;">Watchlist</button>
+      <button id="inv-tab-active" onclick="switchInvTab('active')" style="background:none;border:none;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-2px;">My Investments</button>
 
     </div>
 
@@ -707,16 +730,16 @@
             </tr>
           </thead>
           <tbody id="inv-marketplace-body">
-            <tr data-amount="30000" data-period="24" data-rate="9" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="20000" data-period="24" data-rate="9" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="15000" data-period="24" data-rate="9" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 15,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="8000" data-period="24" data-rate="9" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDC 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="12000" data-period="12" data-rate="8.8" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 12,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="8000" data-period="6" data-rate="8.8" data-currency="USDT" data-status="matched" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDT 8,000</td><td style="padding:14px 16px;font-size:14px;">6 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="10000" data-period="12" data-rate="8.7" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 10,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.7%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="35000" data-period="24" data-rate="8.5" data-currency="USD" data-status="matched" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 35,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="25000" data-period="18" data-rate="8.5" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USDC 25,000</td><td style="padding:14px 16px;font-size:14px;">18 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
-            <tr data-amount="23000" data-period="3" data-rate="8.5" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 23,000</td><td style="padding:14px 16px;font-size:14px;">3 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openModal('watchlist');return false;">Investment details</a></td></tr>
+            <tr data-amount="30000" data-period="24" data-rate="9" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 30,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="20000" data-period="24" data-rate="9" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 20,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="15000" data-period="24" data-rate="9" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 15,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="8000" data-period="24" data-rate="9" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDC 8,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">9%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="12000" data-period="12" data-rate="8.8" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 12,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="8000" data-period="6" data-rate="8.8" data-currency="USDT" data-status="matched" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USDT 8,000</td><td style="padding:14px 16px;font-size:14px;">6 months</td><td style="padding:14px 16px;font-size:14px;">8.8%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="10000" data-period="12" data-rate="8.7" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USD 10,000</td><td style="padding:14px 16px;font-size:14px;">12 months</td><td style="padding:14px 16px;font-size:14px;">8.7%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="35000" data-period="24" data-rate="8.5" data-currency="USD" data-status="matched" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 35,000</td><td style="padding:14px 16px;font-size:14px;">24 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="25000" data-period="18" data-rate="8.5" data-currency="USDC" data-status="available" style="border-bottom:1px solid var(--gray-100);"><td style="padding:14px 16px;font-size:14px;">USDC 25,000</td><td style="padding:14px 16px;font-size:14px;">18 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
+            <tr data-amount="23000" data-period="3" data-rate="8.5" data-currency="USD" data-status="available" style="border-bottom:1px solid var(--gray-100);background:var(--gray-50);"><td style="padding:14px 16px;font-size:14px;">USD 23,000</td><td style="padding:14px 16px;font-size:14px;">3 months</td><td style="padding:14px 16px;font-size:14px;">8.5%</td><td style="padding:14px 16px;"><a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="openInvDetails(this.closest('tr'));return false;">Investment details</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -1064,7 +1087,7 @@
   }
 
   function switchInvTab(tab) {
-    ['marketplace','watchlist'].forEach(t => {
+    ['marketplace','watchlist','active'].forEach(t => {
       const btn = document.getElementById('inv-tab-' + t);
       const content = document.getElementById('inv-content-' + t);
       const active = t === tab;
@@ -1072,6 +1095,7 @@
       btn.style.fontWeight = active ? '600' : '500';
       btn.style.borderBottom = active ? '2px solid var(--blue)' : '2px solid transparent';
       content.style.display = active ? (t === 'marketplace' ? 'flex' : 'block') : 'none';
+      if (t === 'active' && active) content.style.display = 'block';
     });
   }
 
@@ -1270,6 +1294,81 @@
     if (form) form.style.display = '';
     if (success) success.style.display = 'none';
     if (actions) actions.style.display = '';
+  }
+
+  var _invDetailsRow = null;
+
+  function openInvDetails(row) {
+    _invDetailsRow = row;
+    var amount = parseInt(row.dataset.amount);
+    var period = parseInt(row.dataset.period);
+    var rate = parseFloat(row.dataset.rate);
+    var currency = row.dataset.currency;
+
+    var earn = amount * (rate / 100) * (period / 12);
+    var fmt = function(n) { return n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}); };
+
+    var now = new Date();
+    var start = new Date(now); start.setDate(start.getDate() + 7);
+    var maturity = new Date(start); maturity.setMonth(maturity.getMonth() + period);
+    var fmtDate = function(d) { return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}); };
+
+    document.getElementById('invd-amount').textContent = currency + ' ' + fmt(amount);
+    document.getElementById('invd-period').textContent = period + ' month' + (period !== 1 ? 's' : '');
+    document.getElementById('invd-rate').textContent = rate + '%';
+    document.getElementById('invd-earn').textContent = currency + ' ' + fmt(earn);
+    document.getElementById('invd-start').textContent = fmtDate(start);
+    document.getElementById('invd-maturity').textContent = fmtDate(maturity);
+    document.getElementById('invd-created').textContent = fmtDate(now);
+
+    document.getElementById('inv-details-body').style.display = '';
+    document.getElementById('inv-details-success').style.display = 'none';
+    document.getElementById('inv-details-actions').style.display = '';
+
+    document.getElementById('modal-inv-details').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeInvDetails() {
+    document.getElementById('modal-inv-details').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function confirmInvestment() {
+    if (!_invDetailsRow) return;
+    var amount = parseInt(_invDetailsRow.dataset.amount);
+    var period = parseInt(_invDetailsRow.dataset.period);
+    var rate = parseFloat(_invDetailsRow.dataset.rate);
+    var currency = _invDetailsRow.dataset.currency;
+    var earn = amount * (rate / 100) * (period / 12);
+    var fmt = function(n) { return n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}); };
+
+    var now = new Date();
+    var start = new Date(now); start.setDate(start.getDate() + 7);
+    var maturity = new Date(start); maturity.setMonth(maturity.getMonth() + period);
+    var fmtDate = function(d) { return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}); };
+
+    var tbody = document.getElementById('inv-active-body');
+    if (tbody) {
+      var emptyRow = document.getElementById('inv-active-empty');
+      if (emptyRow) emptyRow.style.display = 'none';
+      var tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--gray-100)';
+      tr.innerHTML = '<td style="padding:14px 16px;font-size:14px;">' + currency + ' ' + fmt(amount) + '</td>' +
+        '<td style="padding:14px 16px;font-size:14px;">' + period + ' months</td>' +
+        '<td style="padding:14px 16px;font-size:14px;">' + rate + '%</td>' +
+        '<td style="padding:14px 16px;font-size:14px;">' + currency + ' ' + fmt(earn) + '</td>' +
+        '<td style="padding:14px 16px;font-size:14px;">' + fmtDate(maturity) + '</td>' +
+        '<td style="padding:14px 16px;"><span style="background:#d1fae5;color:#065f46;font-size:11px;font-weight:700;padding:3px 8px;border-radius:100px;">Active</span></td>';
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
+
+    document.getElementById('inv-details-success-msg').textContent =
+      currency + ' ' + fmt(amount) + ' investment added to your portfolio.';
+    document.getElementById('inv-details-body').style.display = 'none';
+    document.getElementById('inv-details-actions').style.display = 'none';
+    document.getElementById('inv-details-success').style.display = '';
+    setTimeout(function() { closeInvDetails(); }, 2000);
   }
 
   function handleBackdropClick(e, id) {
@@ -1629,6 +1728,52 @@
     <div class="modal-actions" id="rollover-actions">
       <button class="btn btn-outline" onclick="closeModal('rollover')">Cancel</button>
       <button class="btn btn-primary" onclick="submitRollover()">Confirm Rollover</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modal-inv-details" onclick="handleBackdropClick(event,'inv-details')">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">Investment Details</div>
+      <button class="modal-close" onclick="closeInvDetails()"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body" id="inv-details-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+        <div style="background:var(--gray-50);border-radius:10px;padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:6px;">Amount to invest</div>
+          <div style="font-size:18px;font-weight:800;color:var(--gray-800);" id="invd-amount">—</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:10px;padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:6px;">Period</div>
+          <div style="font-size:18px;font-weight:800;color:var(--gray-800);" id="invd-period">—</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:10px;padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);margin-bottom:6px;">Interest rate p.a.</div>
+          <div style="font-size:18px;font-weight:800;color:var(--gray-800);" id="invd-rate">—</div>
+        </div>
+        <div style="background:#d1fae5;border-radius:10px;padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#065f46;margin-bottom:6px;">You will earn</div>
+          <div style="font-size:18px;font-weight:800;color:#059669;" id="invd-earn">—</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--gray-100);padding-top:16px;margin-bottom:20px;">
+        <div class="calc-row" style="margin-bottom:10px;"><span class="calc-key">Start date</span><span class="calc-val" id="invd-start">—</span></div>
+        <div class="calc-row" style="margin-bottom:10px;"><span class="calc-key">Maturity date</span><span class="calc-val" id="invd-maturity">—</span></div>
+        <div class="calc-row"><span class="calc-key">Created at</span><span class="calc-val" id="invd-created">—</span></div>
+      </div>
+      <div style="background:var(--blue-light);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--blue-dark);line-height:1.5;">
+        Bitcoin-backed loans carry a liquidation risk below 80% LTV. All loans are overcollateralized with BTC held in custody.
+      </div>
+    </div>
+    <div class="success-box" id="inv-details-success" style="display:none;">
+      <div class="success-icon"><svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+      <div class="success-title">Investment Confirmed!</div>
+      <div class="success-sub" id="inv-details-success-msg">Your investment has been added to your portfolio.</div>
+    </div>
+    <div class="modal-actions" id="inv-details-actions">
+      <a href="#" style="color:var(--blue);font-size:14px;font-weight:500;text-decoration:none;" onclick="closeInvDetails();return false;">Back to list</a>
+      <button class="btn btn-primary" onclick="confirmInvestment()">Invest now</button>
     </div>
   </div>
 </div>
