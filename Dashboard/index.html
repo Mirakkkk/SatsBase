@@ -1905,31 +1905,34 @@
 
       <div style="display:flex;flex-direction:column;gap:14px;">
 
-        <!-- KYC -->
-        <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px 24px 24px 20px;display:flex;align-items:center;gap:20px;">
+        <!-- Phase 1: KYC -->
+        <div id="noc-card-kyc" style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:20px 24px 20px 20px;display:flex;align-items:center;gap:16px;transition:border-color 0.3s;">
+          <div id="noc-phase-kyc" style="width:36px;height:36px;border-radius:50%;background:#0245AC;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.3s;">1</div>
           <div style="flex:1;">
-            <div style="font-size:17px;font-weight:700;color:#0a1628;margin-bottom:6px;">Verify your account</div>
-            <div style="font-size:14px;color:#6b7280;line-height:1.5;">To proceed with a loan application, we require identity verification. Quick process — takes under 5 minutes.</div>
+            <div style="font-size:16px;font-weight:700;color:#0a1628;margin-bottom:4px;">Verify your identity</div>
+            <div id="noc-kyc-sub" style="font-size:13px;color:#6b7280;line-height:1.5;">Quick KYC — takes under 5 minutes. Government ID + liveness check.</div>
           </div>
-          <button style="flex-shrink:0;background:#0245AC;color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;opacity:0.5;" disabled>Verify</button>
+          <button id="noc-btn-kyc" onclick="openKycWizard()" style="flex-shrink:0;background:#0245AC;color:#fff;border:none;border-radius:12px;padding:11px 20px;font-size:13px;font-weight:700;cursor:pointer;">Start →</button>
         </div>
 
-        <!-- Course -->
-        <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px 24px 24px 20px;display:flex;align-items:center;gap:20px;">
+        <!-- Phase 2: Course -->
+        <div id="noc-card-course" style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:20px 24px 20px 20px;display:flex;align-items:center;gap:16px;opacity:0.5;transition:opacity 0.3s,border-color 0.3s;">
+          <div id="noc-phase-course" style="width:36px;height:36px;border-radius:50%;background:#e5e7eb;color:#9ca3af;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.3s,color 0.3s;">2</div>
           <div style="flex:1;">
-            <div style="font-size:17px;font-weight:700;color:#0a1628;margin-bottom:6px;">Borrowing basics course</div>
-            <div style="font-size:14px;color:#6b7280;line-height:1.5;">Learn how Bitcoin-backed lending works, what collateral means, and how to manage your LTV ratio. Short video course.</div>
+            <div style="font-size:16px;font-weight:700;color:#0a1628;margin-bottom:4px;">Borrowing basics course</div>
+            <div id="noc-course-sub" style="font-size:13px;color:#6b7280;line-height:1.5;">Short video course — learn LTV, collateral, and how BTC-backed loans work.</div>
           </div>
-          <button style="flex-shrink:0;background:#0245AC;color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;opacity:0.5;" disabled>Start course</button>
+          <button id="noc-btn-course" onclick="openCourseWizard()" disabled style="flex-shrink:0;background:#0245AC;color:#fff;border:none;border-radius:12px;padding:11px 20px;font-size:13px;font-weight:700;cursor:not-allowed;opacity:0.5;">Start →</button>
         </div>
 
-        <!-- Loan -->
-        <div style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:24px 24px 24px 20px;display:flex;align-items:center;gap:20px;">
+        <!-- Phase 3: Loan -->
+        <div id="noc-card-loan" style="background:#fff;border:1.5px solid #e5e7eb;border-radius:16px;padding:20px 24px 20px 20px;display:flex;align-items:center;gap:16px;opacity:0.5;transition:opacity 0.3s,border-color 0.3s;">
+          <div id="noc-phase-loan" style="width:36px;height:36px;border-radius:50%;background:#e5e7eb;color:#9ca3af;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.3s,color 0.3s;">3</div>
           <div style="flex:1;">
-            <div style="font-size:17px;font-weight:700;color:#0a1628;margin-bottom:6px;">Request a loan</div>
-            <div style="font-size:14px;color:#6b7280;line-height:1.5;">Don't sell your Bitcoin. Use it as collateral and receive cash directly to your bank account.</div>
+            <div style="font-size:16px;font-weight:700;color:#0a1628;margin-bottom:4px;">Request a loan</div>
+            <div style="font-size:13px;color:#6b7280;line-height:1.5;">Don't sell your Bitcoin. Use it as collateral — get cash in 24h.</div>
           </div>
-          <button style="flex-shrink:0;background:transparent;color:#0245AC;border:2px solid #0245AC;border-radius:12px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;opacity:0.4;" disabled>Request a loan</button>
+          <button id="noc-btn-loan" onclick="openModal('borrow')" disabled style="flex-shrink:0;background:transparent;color:#0245AC;border:2px solid #0245AC;border-radius:12px;padding:9px 20px;font-size:13px;font-weight:700;cursor:not-allowed;opacity:0.5;">Request →</button>
         </div>
 
       </div>
@@ -2177,6 +2180,500 @@
     document.getElementById('ob-email-confirm').style.display = 'block';
     document.getElementById('ob-email').disabled = true;
   }
+</script>
+
+<!-- KYC WIZARD MODAL -->
+<div id="kyc-wizard" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(10,22,40,0.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:820px;max-height:92vh;overflow:hidden;display:flex;box-shadow:0 24px 80px rgba(0,0,0,0.2);">
+
+    <!-- Left sidebar -->
+    <div style="width:220px;flex-shrink:0;background:#f8fafc;border-right:1px solid #e5e7eb;padding:32px 20px;">
+      <div style="font-size:14px;font-weight:700;color:#0245AC;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:24px;">Account Verification</div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div id="kyc-sitem-1" class="kyc-sitem kyc-sitem-active" onclick="kycGoTo(1)">
+          <div class="kyc-sdot" id="kyc-sdot-1">1</div>
+          <span>Get started</span>
+        </div>
+        <div class="kyc-sline"></div>
+        <div id="kyc-sitem-2" class="kyc-sitem kyc-sitem-locked" onclick="kycGoTo(2)">
+          <div class="kyc-sdot" id="kyc-sdot-2">2</div>
+          <span>Personal details</span>
+        </div>
+        <div class="kyc-sline"></div>
+        <div id="kyc-sitem-3" class="kyc-sitem kyc-sitem-locked" onclick="kycGoTo(3)">
+          <div class="kyc-sdot" id="kyc-sdot-3">3</div>
+          <span>Address</span>
+        </div>
+        <div class="kyc-sline"></div>
+        <div id="kyc-sitem-4" class="kyc-sitem kyc-sitem-locked" onclick="kycGoTo(4)">
+          <div class="kyc-sdot" id="kyc-sdot-4">4</div>
+          <span>Government ID</span>
+        </div>
+        <div class="kyc-sline"></div>
+        <div id="kyc-sitem-5" class="kyc-sitem kyc-sitem-locked" onclick="kycGoTo(5)">
+          <div class="kyc-sdot" id="kyc-sdot-5">5</div>
+          <span>Phone verification</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right content -->
+    <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+      <!-- Close -->
+      <div style="display:flex;justify-content:flex-end;padding:16px 20px 0;">
+        <button onclick="closeKycWizard()" style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:22px;line-height:1;">&times;</button>
+      </div>
+
+      <!-- Step panels -->
+      <div style="flex:1;overflow-y:auto;padding:8px 36px 24px;">
+
+        <!-- Step 1: Intro -->
+        <div id="kyc-panel-1">
+          <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Let's get started!</div>
+          <div style="font-size:14px;color:#6b7280;margin-bottom:28px;">We'll verify your identity to activate your borrowing account. After successful verification, you'll be all set.</div>
+          <div style="font-size:13px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;">Prepare the following in advance</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:#f8fafc;border-radius:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:#e8f0fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">🪪</div>
+              <div><div style="font-weight:700;font-size:14px;color:#0a1628;">Government-issued ID</div><div style="font-size:13px;color:#6b7280;margin-top:2px;">Passport, driver's license, or national ID card</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:#f8fafc;border-radius:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:#e8f0fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">📱</div>
+              <div><div style="font-weight:700;font-size:14px;color:#0a1628;">Mobile phone with camera</div><div style="font-size:13px;color:#6b7280;margin-top:2px;">Active number registered in your country of residence</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:#f8fafc;border-radius:12px;">
+              <div style="width:40px;height:40px;border-radius:10px;background:#e8f0fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;">🏦</div>
+              <div><div style="font-weight:700;font-size:14px;color:#0a1628;">Payment information</div><div style="font-size:13px;color:#6b7280;margin-top:2px;">Bank account number or Ethereum address</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Personal details -->
+        <div id="kyc-panel-2" style="display:none;">
+          <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Personal details</div>
+          <div style="font-size:14px;color:#6b7280;margin-bottom:28px;">Enter your details exactly as they appear on your official ID.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">First name</label>
+              <input type="text" placeholder="John" class="kyc-input" />
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Last name</label>
+              <input type="text" placeholder="Doe" class="kyc-input" />
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Date of birth</label>
+              <input type="date" class="kyc-input" />
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Nationality</label>
+              <select class="kyc-input">
+                <option value="">Select country</option>
+                <option>United States</option><option>United Kingdom</option><option>Germany</option><option>France</option><option>Canada</option><option>Australia</option><option>Netherlands</option><option>Switzerland</option><option>Sweden</option><option>Norway</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Address -->
+        <div id="kyc-panel-3" style="display:none;">
+          <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Residential address</div>
+          <div style="font-size:14px;color:#6b7280;margin-bottom:28px;">Your current address — must match your proof of address document.</div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Address line</label>
+              <input type="text" placeholder="123 Main Street, Apt 4B" class="kyc-input" style="width:100%;box-sizing:border-box;" />
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div>
+                <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">City</label>
+                <input type="text" placeholder="Berlin" class="kyc-input" />
+              </div>
+              <div>
+                <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Postal code</label>
+                <input type="text" placeholder="10115" class="kyc-input" />
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Country</label>
+              <select class="kyc-input" style="width:100%;box-sizing:border-box;">
+                <option value="">Select country</option>
+                <option>United States</option><option>United Kingdom</option><option>Germany</option><option>France</option><option>Canada</option><option>Australia</option><option>Netherlands</option><option>Switzerland</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Government ID -->
+        <div id="kyc-panel-4" style="display:none;">
+          <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Government ID</div>
+          <div style="font-size:14px;color:#6b7280;margin-bottom:28px;">Select your document type and upload a clear photo.</div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Document type</label>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="kyc-doc-btn kyc-doc-selected" onclick="selectKycDoc(this)">Passport</button>
+              <button class="kyc-doc-btn" onclick="selectKycDoc(this)">Driver's licence</button>
+              <button class="kyc-doc-btn" onclick="selectKycDoc(this)">National ID card</button>
+            </div>
+          </div>
+          <div id="kyc-upload-box" onclick="kycFakeUpload()" style="border:2px dashed #d1d5db;border-radius:14px;padding:40px;text-align:center;cursor:pointer;transition:border-color 0.2s;" onmouseenter="this.style.borderColor='#0245AC'" onmouseleave="this.style.borderColor='#d1d5db'">
+            <div style="font-size:36px;margin-bottom:10px;">📄</div>
+            <div style="font-weight:700;font-size:14px;color:#0a1628;margin-bottom:4px;">Click to upload front of document</div>
+            <div style="font-size:12px;color:#9ca3af;">JPEG, PNG or PDF · max 10MB</div>
+          </div>
+          <div id="kyc-upload-done" style="display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:14px;padding:16px;display:none;align-items:center;gap:12px;margin-top:12px;">
+            <div style="font-size:24px;">✅</div>
+            <div><div style="font-weight:700;font-size:14px;color:#166534;">Document uploaded</div><div style="font-size:12px;color:#15803d;">passport_front.jpg · 2.4 MB</div></div>
+          </div>
+        </div>
+
+        <!-- Step 5: Phone -->
+        <div id="kyc-panel-5" style="display:none;">
+          <div style="font-size:26px;font-weight:800;color:#0a1628;margin-bottom:8px;">Phone verification</div>
+          <div style="font-size:14px;color:#6b7280;margin-bottom:28px;">Enter your mobile number. We'll send a one-time verification code.</div>
+          <div id="kyc-phone-step1">
+            <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Mobile number</label>
+            <div style="display:flex;gap:10px;">
+              <select class="kyc-input" style="width:110px;flex-shrink:0;">
+                <option>+1</option><option>+44</option><option>+49</option><option selected>+33</option><option>+61</option><option>+31</option><option>+41</option><option>+46</option><option>+47</option>
+              </select>
+              <input type="tel" placeholder="7123 456 789" class="kyc-input" style="flex:1;" />
+            </div>
+            <button onclick="kycSendCode()" style="margin-top:16px;padding:13px 28px;background:#0245AC;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;width:100%;">Send verification code</button>
+          </div>
+          <div id="kyc-phone-step2" style="display:none;">
+            <div style="background:#e8f0fd;border-radius:12px;padding:14px 16px;font-size:13px;color:#1a56db;margin-bottom:20px;">Code sent to your mobile. Check your messages.</div>
+            <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Verification code</label>
+            <input id="kyc-code-input" type="text" placeholder="6-digit code" maxlength="6" class="kyc-input" style="width:100%;box-sizing:border-box;letter-spacing:0.3em;font-size:20px;text-align:center;" />
+            <div style="font-size:12px;color:#9ca3af;margin-top:8px;text-align:center;">Didn't receive it? <span onclick="kycSendCode()" style="color:#0245AC;cursor:pointer;font-weight:600;">Resend</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom nav -->
+      <div style="border-top:1px solid #e5e7eb;padding:16px 36px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+        <button id="kyc-back-btn" onclick="kycBack()" style="padding:11px 24px;border:2px solid #e5e7eb;border-radius:100px;background:#fff;font-size:14px;font-weight:600;color:#374151;cursor:pointer;visibility:hidden;">← Back</button>
+        <div style="display:flex;gap:6px;" id="kyc-dots-nav">
+          <div class="kyc-dot-nav kyc-dot-nav-active" id="kdot-1"></div>
+          <div class="kyc-dot-nav" id="kdot-2"></div>
+          <div class="kyc-dot-nav" id="kdot-3"></div>
+          <div class="kyc-dot-nav" id="kdot-4"></div>
+          <div class="kyc-dot-nav" id="kdot-5"></div>
+        </div>
+        <button id="kyc-next-btn" onclick="kycNext()" style="padding:11px 28px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COURSE WIZARD MODAL -->
+<div id="course-wizard" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(10,22,40,0.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:680px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,0.2);">
+
+    <!-- Header progress bar -->
+    <div style="padding:24px 32px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:700;color:#0245AC;text-transform:uppercase;letter-spacing:0.07em;">Borrowing Basics Course</div>
+        <button onclick="closeCourseWizard()" style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:22px;line-height:1;">&times;</button>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <div class="course-prog-seg" id="cprog-1" style="background:#0245AC;"></div>
+        <div class="course-prog-seg" id="cprog-2"></div>
+        <div class="course-prog-seg" id="cprog-3"></div>
+        <div class="course-prog-seg" id="cprog-4"></div>
+      </div>
+      <div style="font-size:12px;color:#9ca3af;margin-top:6px;" id="course-step-label">Step 1 of 4</div>
+    </div>
+
+    <!-- Content -->
+    <div style="flex:1;overflow-y:auto;padding:24px 32px;">
+
+      <!-- Lesson 1 -->
+      <div id="course-panel-1">
+        <div style="font-size:22px;font-weight:800;color:#0a1628;margin-bottom:8px;">What is Bitcoin-backed lending?</div>
+        <div style="background:#f8fafc;border-radius:14px;padding:24px;margin-bottom:20px;">
+          <div style="font-size:48px;text-align:center;margin-bottom:16px;">₿ → 💵</div>
+          <div style="font-size:14px;color:#374151;line-height:1.7;">Bitcoin-backed lending lets you borrow cash <strong>without selling your BTC</strong>. You lock your Bitcoin as collateral in a secure escrow. A lender provides cash. You repay the loan + interest, and your BTC is returned.</div>
+        </div>
+        <div style="background:#e8f0fd;border-radius:12px;padding:16px 20px;">
+          <div style="font-weight:700;font-size:13px;color:#1a56db;margin-bottom:6px;">Key benefit</div>
+          <div style="font-size:13px;color:#1e40af;line-height:1.6;">You keep exposure to Bitcoin price appreciation. If BTC goes up while your loan is active, you benefit — your collateral is still yours after repayment.</div>
+        </div>
+      </div>
+
+      <!-- Lesson 2 -->
+      <div id="course-panel-2" style="display:none;">
+        <div style="font-size:22px;font-weight:800;color:#0a1628;margin-bottom:8px;">What is collateral?</div>
+        <div style="background:#f8fafc;border-radius:14px;padding:24px;margin-bottom:20px;">
+          <div style="font-size:48px;text-align:center;margin-bottom:16px;">🔒</div>
+          <div style="font-size:14px;color:#374151;line-height:1.7;">Collateral is the Bitcoin you <strong>lock up as security</strong> for the loan. It sits in a DLC escrow — neither you nor the lender can access it until the loan terms are resolved (repaid or liquidated).</div>
+        </div>
+        <div style="background:#fff7ed;border-radius:12px;padding:16px 20px;">
+          <div style="font-weight:700;font-size:13px;color:#9a3412;margin-bottom:6px;">Important to know</div>
+          <div style="font-size:13px;color:#7c2d12;line-height:1.6;">If you can't repay the loan, the lender can claim your collateral. Always borrow an amount you can repay.</div>
+        </div>
+      </div>
+
+      <!-- Lesson 3 -->
+      <div id="course-panel-3" style="display:none;">
+        <div style="font-size:22px;font-weight:800;color:#0a1628;margin-bottom:8px;">Understanding LTV ratio</div>
+        <div style="background:#f8fafc;border-radius:14px;padding:24px;margin-bottom:20px;">
+          <div style="font-size:14px;color:#374151;line-height:1.7;margin-bottom:16px;"><strong>LTV (Loan-to-Value)</strong> = Loan amount ÷ Collateral value × 100</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#10b981;flex-shrink:0;"></div><div style="font-size:13px;color:#374151;"><strong>Below 60%</strong> — Safe zone. Buffer before liquidation.</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></div><div style="font-size:13px;color:#374151;"><strong>60–75%</strong> — Warning zone. Consider adding collateral.</div></div>
+            <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:50%;background:#ef4444;flex-shrink:0;"></div><div style="font-size:13px;color:#374151;"><strong>Above 80%</strong> — Liquidation triggers. BTC may be sold.</div></div>
+          </div>
+        </div>
+        <div style="background:#e8f0fd;border-radius:12px;padding:16px 20px;">
+          <div style="font-size:13px;color:#1e40af;line-height:1.6;">Plan B starts you at 50% LTV, giving you a 30% safety buffer before liquidation risk.</div>
+        </div>
+      </div>
+
+      <!-- Lesson 4: Mini quiz -->
+      <div id="course-panel-4" style="display:none;">
+        <div style="font-size:22px;font-weight:800;color:#0a1628;margin-bottom:6px;">Quick check ✓</div>
+        <div style="font-size:14px;color:#6b7280;margin-bottom:20px;">3 questions to confirm you're ready to borrow.</div>
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#0a1628;margin-bottom:8px;">1. What happens to your BTC during the loan?</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <label class="quiz-opt"><input type="radio" name="q1" value="a"> It's sold immediately</label>
+              <label class="quiz-opt correct-opt"><input type="radio" name="q1" value="b"> It's locked in escrow until repayment</label>
+              <label class="quiz-opt"><input type="radio" name="q1" value="c"> It's transferred to the lender</label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#0a1628;margin-bottom:8px;">2. What does LTV stand for?</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <label class="quiz-opt"><input type="radio" name="q2" value="a"> Loan Transfer Value</label>
+              <label class="quiz-opt correct-opt"><input type="radio" name="q2" value="b"> Loan-to-Value</label>
+              <label class="quiz-opt"><input type="radio" name="q2" value="c"> Lending Term Variable</label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#0a1628;margin-bottom:8px;">3. At what LTV does liquidation trigger?</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <label class="quiz-opt"><input type="radio" name="q3" value="a"> 50%</label>
+              <label class="quiz-opt"><input type="radio" name="q3" value="b"> 65%</label>
+              <label class="quiz-opt correct-opt"><input type="radio" name="q3" value="c"> 80%</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom nav -->
+    <div style="border-top:1px solid #e5e7eb;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;">
+      <button id="course-back-btn" onclick="courseBack()" style="padding:11px 24px;border:2px solid #e5e7eb;border-radius:100px;background:#fff;font-size:14px;font-weight:600;color:#374151;cursor:pointer;visibility:hidden;">← Back</button>
+      <button id="course-next-btn" onclick="courseNext()" style="padding:11px 28px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;">Next →</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.kyc-sitem { display:flex;align-items:center;gap:10px;padding:8px 0;cursor:pointer;transition:opacity 0.2s; }
+.kyc-sitem-active .kyc-sdot { background:#0245AC;color:#fff; }
+.kyc-sitem-done .kyc-sdot { background:#10b981;color:#fff; }
+.kyc-sitem-locked { opacity:0.45; }
+.kyc-sdot { width:28px;height:28px;border-radius:50%;background:#e5e7eb;color:#9ca3af;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.3s,color 0.3s; }
+.kyc-sitem span { font-size:13px;font-weight:600;color:#374151; }
+.kyc-sline { width:2px;height:18px;background:#e5e7eb;margin-left:13px; }
+.kyc-input { width:100%;box-sizing:border-box;border:1.5px solid #e5e7eb;border-radius:10px;padding:11px 14px;font-size:14px;color:#0a1628;outline:none;background:#fff;transition:border-color 0.2s;font-family:inherit; }
+.kyc-input:focus { border-color:#0245AC; }
+.kyc-doc-btn { padding:9px 18px;border:1.5px solid #e5e7eb;border-radius:100px;background:#fff;font-size:13px;font-weight:600;color:#374151;cursor:pointer;transition:all 0.15s; }
+.kyc-doc-selected { border-color:#0245AC;background:#0245AC;color:#fff; }
+.kyc-dot-nav { width:8px;height:8px;border-radius:50%;background:#e5e7eb;transition:background 0.2s; }
+.kyc-dot-nav-active { background:#0245AC; }
+.course-prog-seg { flex:1;height:4px;border-radius:100px;background:#e5e7eb;transition:background 0.3s; }
+.quiz-opt { display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;color:#374151;cursor:pointer;transition:border-color 0.2s; }
+.quiz-opt:hover { border-color:#0245AC; }
+.quiz-opt input { accent-color:#0245AC;width:16px;height:16px;flex-shrink:0; }
+</style>
+
+<script>
+// ── KYC WIZARD ──────────────────────────────────────────────
+let kycStep = 1;
+const KYC_TOTAL = 5;
+
+function openKycWizard() {
+  kycStep = 1;
+  kycRender();
+  const el = document.getElementById('kyc-wizard');
+  el.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeKycWizard() {
+  document.getElementById('kyc-wizard').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function kycGoTo(step) {
+  if (step > kycStep) return; // can't skip ahead
+  kycStep = step;
+  kycRender();
+}
+
+function kycNext() {
+  if (kycStep === 5) {
+    // phone step — check if code entered
+    const codeInput = document.getElementById('kyc-code-input');
+    const phoneStep2 = document.getElementById('kyc-phone-step2');
+    if (phoneStep2.style.display === 'none' || phoneStep2.style.display === '') {
+      kycSendCode(); return;
+    }
+    if (!codeInput.value || codeInput.value.length < 4) {
+      codeInput.style.borderColor = '#ef4444'; return;
+    }
+    completeKyc(); return;
+  }
+  kycStep = Math.min(kycStep + 1, KYC_TOTAL);
+  kycRender();
+}
+
+function kycBack() {
+  kycStep = Math.max(kycStep - 1, 1);
+  kycRender();
+}
+
+function kycRender() {
+  for (let i = 1; i <= KYC_TOTAL; i++) {
+    document.getElementById('kyc-panel-' + i).style.display = i === kycStep ? 'block' : 'none';
+    const item = document.getElementById('kyc-sitem-' + i);
+    const dot = document.getElementById('kyc-sdot-' + i);
+    item.className = 'kyc-sitem';
+    if (i < kycStep) {
+      item.classList.add('kyc-sitem-done');
+      dot.textContent = '✓';
+    } else if (i === kycStep) {
+      item.classList.add('kyc-sitem-active');
+      dot.textContent = i;
+    } else {
+      item.classList.add('kyc-sitem-locked');
+      dot.textContent = i;
+    }
+    const kdot = document.getElementById('kdot-' + i);
+    if (kdot) kdot.className = 'kyc-dot-nav' + (i === kycStep ? ' kyc-dot-nav-active' : '');
+  }
+  document.getElementById('kyc-back-btn').style.visibility = kycStep > 1 ? 'visible' : 'hidden';
+  const nextBtn = document.getElementById('kyc-next-btn');
+  nextBtn.textContent = kycStep === KYC_TOTAL ? 'Complete ✓' : 'Next →';
+}
+
+function selectKycDoc(btn) {
+  document.querySelectorAll('.kyc-doc-btn').forEach(b => b.classList.remove('kyc-doc-selected'));
+  btn.classList.add('kyc-doc-selected');
+}
+
+function kycFakeUpload() {
+  const box = document.getElementById('kyc-upload-box');
+  const done = document.getElementById('kyc-upload-done');
+  box.style.display = 'none';
+  done.style.display = 'flex';
+}
+
+function kycSendCode() {
+  document.getElementById('kyc-phone-step1').style.display = 'none';
+  document.getElementById('kyc-phone-step2').style.display = 'block';
+}
+
+function completeKyc() {
+  closeKycWizard();
+  // Mark KYC card green
+  const card = document.getElementById('noc-card-kyc');
+  card.style.borderColor = '#86efac';
+  card.style.background = '#f0fdf4';
+  const phase = document.getElementById('noc-phase-kyc');
+  phase.style.background = '#10b981';
+  phase.textContent = '✓';
+  const btn = document.getElementById('noc-btn-kyc');
+  btn.textContent = 'Verified ✓';
+  btn.style.background = '#10b981';
+  btn.onclick = null;
+  btn.style.cursor = 'default';
+  document.getElementById('noc-kyc-sub').textContent = 'Identity verified successfully.';
+  // Unlock course
+  const courseCard = document.getElementById('noc-card-course');
+  courseCard.style.opacity = '1';
+  const coursePhase = document.getElementById('noc-phase-course');
+  coursePhase.style.background = '#0245AC';
+  coursePhase.style.color = '#fff';
+  const courseBtn = document.getElementById('noc-btn-course');
+  courseBtn.disabled = false;
+  courseBtn.style.opacity = '1';
+  courseBtn.style.cursor = 'pointer';
+}
+
+// ── COURSE WIZARD ────────────────────────────────────────────
+let courseStep = 1;
+const COURSE_TOTAL = 4;
+
+function openCourseWizard() {
+  courseStep = 1;
+  courseRender();
+  const el = document.getElementById('course-wizard');
+  el.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCourseWizard() {
+  document.getElementById('course-wizard').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function courseNext() {
+  if (courseStep === COURSE_TOTAL) { completeCourse(); return; }
+  courseStep = Math.min(courseStep + 1, COURSE_TOTAL);
+  courseRender();
+}
+
+function courseBack() {
+  courseStep = Math.max(courseStep - 1, 1);
+  courseRender();
+}
+
+function courseRender() {
+  for (let i = 1; i <= COURSE_TOTAL; i++) {
+    document.getElementById('course-panel-' + i).style.display = i === courseStep ? 'block' : 'none';
+    const seg = document.getElementById('cprog-' + i);
+    seg.style.background = i <= courseStep ? '#0245AC' : '#e5e7eb';
+  }
+  document.getElementById('course-step-label').textContent = 'Step ' + courseStep + ' of ' + COURSE_TOTAL;
+  document.getElementById('course-back-btn').style.visibility = courseStep > 1 ? 'visible' : 'hidden';
+  const nextBtn = document.getElementById('course-next-btn');
+  nextBtn.textContent = courseStep === COURSE_TOTAL ? 'Complete course ✓' : 'Next →';
+}
+
+function completeCourse() {
+  closeCourseWizard();
+  // Mark course card green
+  const card = document.getElementById('noc-card-course');
+  card.style.borderColor = '#86efac';
+  card.style.background = '#f0fdf4';
+  const phase = document.getElementById('noc-phase-course');
+  phase.style.background = '#10b981';
+  phase.style.color = '#fff';
+  phase.textContent = '✓';
+  const btn = document.getElementById('noc-btn-course');
+  btn.textContent = 'Completed ✓';
+  btn.style.background = '#10b981';
+  btn.onclick = null;
+  btn.style.cursor = 'default';
+  document.getElementById('noc-course-sub').textContent = 'Course completed. You\'re ready to borrow.';
+  // Unlock loan
+  const loanCard = document.getElementById('noc-card-loan');
+  loanCard.style.opacity = '1';
+  const loanPhase = document.getElementById('noc-phase-loan');
+  loanPhase.style.background = '#0245AC';
+  loanPhase.style.color = '#fff';
+  const loanBtn = document.getElementById('noc-btn-loan');
+  loanBtn.disabled = false;
+  loanBtn.style.opacity = '1';
+  loanBtn.style.cursor = 'pointer';
+}
 </script>
 </body>
 </html>
