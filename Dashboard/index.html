@@ -1768,7 +1768,7 @@
     const prices = d.prices;
     const minP = Math.min(...prices) * 0.995;
     const maxP = Math.max(...prices) * 1.005;
-    const pad = { top: 20, right: 10, bottom: 30, left: 10 };
+    const pad = { top: 20, right: 12, bottom: 30, left: W < 400 ? 52 : 68 };
     const chartW = W - pad.left - pad.right;
     const chartH = H - pad.top - pad.bottom;
 
@@ -1804,16 +1804,25 @@
     prices.forEach((v, i) => { i === 0 ? ctx.moveTo(px(i), py(v)) : ctx.lineTo(px(i), py(v)); });
     ctx.stroke();
 
-    // y-axis labels
-    ctx.fillStyle = '#9ca3af'; ctx.font = '11px system-ui';
-    [minP, (minP+maxP)/2, maxP].forEach(v => {
-      ctx.fillText('$' + Math.round(v).toLocaleString(), pad.left + 2, py(v) - 3);
+    // y-axis labels — right-aligned into left padding, abbreviated on small screens
+    ctx.fillStyle = '#9ca3af'; ctx.font = '11px system-ui'; ctx.textAlign = 'right';
+    const fmtY = v => W < 400 ? '$' + Math.round(v/1000) + 'k' : '$' + Math.round(v).toLocaleString();
+    [maxP, (minP+maxP)/2, minP].forEach(v => {
+      const y = py(v);
+      ctx.fillText(fmtY(v), pad.left - 4, y + 4);
     });
+    ctx.textAlign = 'left';
 
-    // x-axis labels
+    // x-axis labels — thin out to prevent collision based on available width
     const labelEl = document.getElementById('shield-chart-labels');
     if (labelEl) {
-      labelEl.innerHTML = d.labels.map(l => `<span>${l}</span>`).join('');
+      const minGap = 52; // minimum px between label centers
+      const step = Math.max(1, Math.ceil(d.labels.length / Math.floor(chartW / minGap)));
+      const visible = d.labels.map((l, i) => {
+        const show = i === 0 || i === d.labels.length - 1 || i % step === 0;
+        return show ? `<span>${l}</span>` : `<span style="visibility:hidden">${l}</span>`;
+      });
+      labelEl.innerHTML = visible.join('');
     }
   }
 </script>
