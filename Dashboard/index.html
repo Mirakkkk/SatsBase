@@ -529,7 +529,7 @@
   <!-- ===== MY LOANS VIEW ===== -->
   <div class="view" id="view-loans">
     <!-- BORROWING POWER BANNER -->
-    <div style="background:var(--blue-light);border:1.5px solid #bfdbfe;border-radius:14px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+    <div id="borrowing-power-banner" style="background:var(--blue-light);border:1.5px solid #bfdbfe;border-radius:14px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
       <div style="flex:1;min-width:240px;">
         <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">&#9889; Your borrowing power</div>
         <div style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:4px;">Borrow more</div>
@@ -1932,7 +1932,7 @@
             <div style="font-size:16px;font-weight:700;color:#0a1628;margin-bottom:4px;">Request a loan</div>
             <div style="font-size:13px;color:#6b7280;line-height:1.5;">Don't sell your Bitcoin. Use it as collateral — get cash in 24h.</div>
           </div>
-          <button id="noc-btn-loan" onclick="goToNocDashboard()" disabled style="flex-shrink:0;background:transparent;color:#0245AC;border:2px solid #0245AC;border-radius:12px;padding:9px 20px;font-size:13px;font-weight:700;cursor:not-allowed;opacity:0.5;">Request →</button>
+          <button id="noc-btn-loan" onclick="openNocLoanModal()" disabled style="flex-shrink:0;background:transparent;color:#0245AC;border:2px solid #0245AC;border-radius:12px;padding:9px 20px;font-size:13px;font-weight:700;cursor:not-allowed;opacity:0.5;">Request →</button>
         </div>
 
       </div>
@@ -2674,40 +2674,120 @@ function completeCourse() {
   loanBtn.style.opacity = '1';
   loanBtn.style.cursor = 'pointer';
 }
+// ── NOC LOAN REQUEST MODAL ──────────────────────────
+var nocLoanTerm = 12;
+var NOC_RATES = {'6': 0.09, '12': 0.085, '24': 0.08};
+
+function openNocLoanModal() {
+  document.getElementById('noc-loan-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  updateNocCalc();
+}
+function closeNocLoanModal() {
+  document.getElementById('noc-loan-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function selectNocTerm(btn) {
+  document.querySelectorAll('.noc-term-btn').forEach(function(b){ b.classList.remove('noc-term-selected'); });
+  btn.classList.add('noc-term-selected');
+  nocLoanTerm = parseInt(btn.dataset.term);
+  updateNocCalc();
+}
+function updateNocCalc() {
+  var amount = parseFloat(document.getElementById('noc-loan-amount').value) || 0;
+  document.getElementById('noc-loan-slider').value = amount;
+  var rate = NOC_RATES[String(nocLoanTerm)] || 0.085;
+  var monthly = (amount * rate / 12).toFixed(0);
+  var total = (amount + amount * rate / 12 * nocLoanTerm).toFixed(0);
+  document.getElementById('noc-sum-rate').textContent = (rate * 100).toFixed(1) + '% / yr';
+  document.getElementById('noc-sum-monthly').textContent = '$' + parseFloat(monthly).toLocaleString();
+  document.getElementById('noc-sum-total').textContent = '$' + parseFloat(total).toLocaleString();
+}
+function submitNocLoan() {
+  var amount = parseFloat(document.getElementById('noc-loan-amount').value) || 0;
+  if (amount < 1000) { document.getElementById('noc-loan-amount').style.borderColor='#ef4444'; return; }
+  closeNocLoanModal();
+  goToNocDashboard(amount, nocLoanTerm);
+}
+
 // ── NO-COLLATERAL BORROWER DASHBOARD ──────────────────────────────
-function goToNocDashboard() {
+function goToNocDashboard(amount, termMonths) {
   closeBorrowOnboard();
   enterDashboard('borrower');
-  // Reset to empty state (no pre-existing loans)
-  document.getElementById('stat-total-borrowed').textContent = '—';
-  document.getElementById('stat-total-borrowed-sub').textContent = 'No active loans yet';
+  amount = amount || 10000;
+  termMonths = termMonths || 12;
+  var rate = NOC_RATES[String(termMonths)] || 0.085;
+  var monthly = amount * rate / 12;
+  var fmtUsd = function(v){ return '$' + Math.round(v).toLocaleString('en-US'); };
+  var loanId = '#PBL-' + (2200 + Math.floor(Math.random() * 99));
+
+  // Maturity date
+  var maturity = new Date();
+  maturity.setMonth(maturity.getMonth() + termMonths);
+  var matureStr = maturity.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+  var nextPay = new Date();
+  nextPay.setDate(nextPay.getDate() + 30);
+  var nextPayStr = nextPay.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+
+  // Stats
+  document.getElementById('stat-total-borrowed').textContent = fmtUsd(amount);
+  document.getElementById('stat-total-borrowed-sub').textContent = '1 loan pending approval';
   document.getElementById('stat-btc-collateral').textContent = '—';
-  document.getElementById('stat-btc-usd').textContent = 'No collateral required';
-  document.getElementById('stat-ltv').textContent = '—';
-  document.getElementById('stat-ltv-sub').textContent = 'No active loan';
-  document.getElementById('stat-next-payment').textContent = '—';
-  document.getElementById('stat-next-payment-sub').textContent = 'No upcoming payments';
-  document.getElementById('active-loans-subtitle').textContent = 'No active loans';
-  document.getElementById('active-loans-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-400);padding:24px;font-size:13px;">No active loans — request your first loan below</td></tr>';
-  document.getElementById('my-loans-subtitle').textContent = '';
-  document.getElementById('my-loans-cards').innerHTML = '<div style="background:#f8fafc;border-radius:14px;padding:32px;text-align:center;color:var(--gray-400);font-size:14px;margin-bottom:16px;">No active loans yet.<br><span style=\'color:var(--gray-600);font-weight:600;\'>Request your first loan to get started.</span></div>';
+  document.getElementById('stat-btc-usd').textContent = 'No collateral';
+  document.getElementById('stat-ltv').textContent = 'N/A';
+  document.getElementById('stat-ltv-sub').textContent = 'No collateral loan';
+  document.getElementById('stat-next-payment').textContent = nextPayStr;
+  document.getElementById('stat-next-payment-sub').textContent = fmtUsd(monthly) + ' due in 30 days';
+
+  // Active loans table
+  document.getElementById('active-loans-subtitle').textContent = '1 loan · ' + fmtUsd(amount) + ' total';
+  document.getElementById('active-loans-tbody').innerHTML =
+    '<tr><td><div style="font-weight:600;">' + loanId + '</div><div style="font-size:12px;color:var(--gray-400);">Matures ' + matureStr + '</div></td>' +
+    '<td><strong>' + fmtUsd(amount) + '</strong></td>' +
+    '<td><span style="font-size:13px;color:var(--gray-400);">No collateral</span></td>' +
+    '<td>' + (rate*100).toFixed(1) + '% / yr</td>' +
+    '<td><span class="badge badge-orange">Pending</span></td></tr>';
+
+  // My Loans card
+  document.getElementById('my-loans-subtitle').textContent = '· 1 loan pending · ' + fmtUsd(amount) + ' requested';
+  document.getElementById('my-loans-cards').innerHTML =
+    '<div class="loan-card">' +
+    '<div class="loan-card-header"><div><div class="loan-id">' + loanId + '</div><div class="loan-meta">Requested today &middot; Matures ' + matureStr + '</div></div>' +
+    '<span class="badge badge-orange" style="font-size:13px;padding:6px 14px;">Pending approval</span></div>' +
+    '<div class="loan-stats">' +
+    '<div class="loan-stat"><div class="loan-stat-label">Principal</div><div class="loan-stat-value">' + fmtUsd(amount) + '</div></div>' +
+    '<div class="loan-stat"><div class="loan-stat-label">Interest Rate</div><div class="loan-stat-value">' + (rate*100).toFixed(1) + '% / yr</div></div>' +
+    '<div class="loan-stat"><div class="loan-stat-label">Monthly Payment</div><div class="loan-stat-value">' + fmtUsd(monthly) + '</div></div>' +
+    '<div class="loan-stat"><div class="loan-stat-label">Collateral</div><div class="loan-stat-value" style="color:var(--gray-400);">None</div></div>' +
+    '</div>' +
+    '<div style="background:#fef3c7;border-radius:10px;padding:12px 16px;font-size:13px;color:#92400e;margin-top:4px;">⏳ Your loan application is under review. Funds typically arrive within 24–48 hours once approved.</div>' +
+    '</div>';
+
+  // Update borrowing power banner
+  var banner = document.getElementById('borrowing-power-banner');
+  if (banner) {
+    banner.innerHTML =
+      '<div style="flex:1;min-width:240px;">' +
+      '<div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">⏳ Loan under review</div>' +
+      '<div style="font-size:17px;font-weight:700;color:var(--gray-800);margin-bottom:4px;">Your request is being processed</div>' +
+      '<div style="font-size:28px;font-weight:800;color:var(--blue);margin-bottom:12px;">' + fmtUsd(amount) + ' <span style="font-size:14px;font-weight:500;color:var(--gray-600);">requested · pending approval</span></div>' +
+      '<div style="height:7px;background:#bfdbfe;border-radius:4px;overflow:hidden;margin-bottom:8px;"><div style="width:100%;height:100%;background:var(--blue);border-radius:4px;"></div></div>' +
+      '<div style="font-size:13px;color:var(--gray-600);">No collateral required &mdash; unsecured loan at <strong>' + (rate*100).toFixed(1) + '% / yr</strong>. Approval within 24–48 hours.</div>' +
+      '</div>';
+  }
+
   // Hide all collateral elements
   setTimeout(function() {
-    // Collateral stat card
     var sc = document.getElementById('stat-card-collateral');
     if (sc) sc.style.display = 'none';
-    // Collateral nav item (sidebar)
     document.querySelectorAll('.nav-item.borrower-only').forEach(function(btn) {
       if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('collateral')) btn.style.display = 'none';
     });
-    // Collateral bottom nav
     var bnCol = document.getElementById('bn-collateral');
     if (bnCol) bnCol.style.display = 'none';
-    // "Add Collateral" buttons in loan cards
     document.querySelectorAll('.loan-actions .btn').forEach(function(btn) {
       if (btn.textContent.trim().includes('Collateral')) btn.style.display = 'none';
     });
-    // "Add Collateral" button in loans view header
     document.querySelectorAll('.btn').forEach(function(btn) {
       if (btn.textContent.trim() === '+ Add Collateral') btn.style.display = 'none';
     });
@@ -2715,5 +2795,56 @@ function goToNocDashboard() {
 }
 
 </script>
+
+<!-- NOC LOAN REQUEST MODAL -->
+<div id="noc-loan-modal" style="display:none;position:fixed;inset:0;z-index:10001;background:rgba(10,22,40,0.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,0.2);overflow:hidden;">
+    <div style="padding:28px 32px 0;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div>
+          <div style="font-size:22px;font-weight:800;color:#0a1628;">Request a loan</div>
+          <div style="font-size:14px;color:#6b7280;margin-top:4px;">No Bitcoin required. Fill in your details below.</div>
+        </div>
+        <button onclick="closeNocLoanModal()" style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:24px;line-height:1;margin-top:-4px;">&times;</button>
+      </div>
+    </div>
+    <div style="padding:24px 32px 32px;">
+      <!-- Amount -->
+      <div style="margin-bottom:22px;">
+        <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">How much do you need?</label>
+        <div style="position:relative;">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;font-weight:700;color:#0a1628;">$</span>
+          <input id="noc-loan-amount" type="number" min="1000" max="50000" step="500" value="10000"
+            oninput="updateNocCalc()"
+            style="width:100%;box-sizing:border-box;border:2px solid #e5e7eb;border-radius:12px;padding:14px 14px 14px 30px;font-size:22px;font-weight:700;color:#0a1628;outline:none;font-family:inherit;"
+            onfocus="this.style.borderColor='#0245AC'" onblur="this.style.borderColor='#e5e7eb'" />
+        </div>
+        <input type="range" min="1000" max="50000" step="500" value="10000" oninput="document.getElementById('noc-loan-amount').value=this.value;updateNocCalc()"
+          style="width:100%;margin-top:10px;accent-color:#0245AC;" id="noc-loan-slider" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#9ca3af;margin-top:2px;"><span>$1,000</span><span>$50,000</span></div>
+      </div>
+      <!-- Term -->
+      <div style="margin-bottom:22px;">
+        <label style="display:block;font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">Loan term</label>
+        <div style="display:flex;gap:10px;">
+          <button class="noc-term-btn" data-term="6" onclick="selectNocTerm(this)">6 months</button>
+          <button class="noc-term-btn noc-term-selected" data-term="12" onclick="selectNocTerm(this)">12 months</button>
+          <button class="noc-term-btn" data-term="24" onclick="selectNocTerm(this)">24 months</button>
+        </div>
+      </div>
+      <!-- Summary -->
+      <div id="noc-loan-summary" style="background:#f0f6ff;border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:13px;color:#374151;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#6b7280;">Interest rate</span><strong id="noc-sum-rate">8.0% / yr</strong></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="color:#6b7280;">Monthly payment</span><strong id="noc-sum-monthly">—</strong></div>
+        <div style="display:flex;justify-content:space-between;"><span style="color:#6b7280;">Total repayable</span><strong id="noc-sum-total">—</strong></div>
+      </div>
+      <button onclick="submitNocLoan()" style="width:100%;padding:15px;background:#0245AC;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;">Submit loan request →</button>
+    </div>
+  </div>
+</div>
+<style>
+.noc-term-btn { flex:1;padding:10px 0;border:1.5px solid #e5e7eb;border-radius:100px;background:#fff;font-size:13px;font-weight:600;color:#374151;cursor:pointer;transition:all 0.15s; }
+.noc-term-selected { border-color:#0245AC;background:#0245AC;color:#fff; }
+</style>
 </body>
 </html>
