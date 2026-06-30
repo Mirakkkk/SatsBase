@@ -103,8 +103,8 @@ This repo ships a self-contained front-end demo (single-page app, no build step)
 
 ```bash
 # Clone and serve the Dashboard locally
-git clone https://github.com/Mirakkkk/plan-b-hackathon.git
-cd plan-b-hackathon
+git clone https://github.com/Mirakkkk/SatsBase.git
+cd SatsBase
 python3 -m http.server 8000
 # open http://localhost:8000/Dashboard/
 ```
