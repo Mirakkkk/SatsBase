@@ -6,7 +6,7 @@
 
 **Bitcoin-backed peer-to-peer lending for the people traditional finance wrote off.**
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-plan--b--lending.vercel.app-1F6DFF?style=for-the-badge)](https://plan-b-lending.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-satsbase.vercel.app-1F6DFF?style=for-the-badge)](https://satsbase.vercel.app/Dashboard)
 &nbsp;
 ![Bitcoin](https://img.shields.io/badge/Bitcoin-Collateral-F7931A?style=for-the-badge&logo=bitcoin&logoColor=white)
 &nbsp;
@@ -109,7 +109,7 @@ python3 -m http.server 8000
 # open http://localhost:8000/Dashboard/
 ```
 
-Or just visit the live deployment: **[plan-b-lending.vercel.app](https://plan-b-lending.vercel.app)**
+Or just visit the live deployment: **[satsbase.vercel.app](https://satsbase.vercel.app/Dashboard)**
 
 ---
 
